@@ -124,6 +124,14 @@ export default async function Home() {
           </span>
           <span>•</span>
           <a
+            href="https://github.com/afrieirham/kelasmengajionline"
+            target="_blank"
+            className="hover:underline"
+          >
+            Sumber Terbuka (Open Source)
+          </a>
+          <span>•</span>
+          <a
             href="https://analytics.afrieirham.com/share/Kyk6iqyzQ74OaQOg/kelasmengaji.online"
             target="_blank"
             className="hover:underline"
