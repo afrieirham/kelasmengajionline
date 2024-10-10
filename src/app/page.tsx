@@ -122,6 +122,14 @@ export default async function Home() {
               Atif Arshad
             </a>
           </span>
+          <span>•</span>
+          <a
+            href="https://analytics.afrieirham.com/share/Kyk6iqyzQ74OaQOg/kelasmengaji.online"
+            target="_blank"
+            className="hover:underline"
+          >
+            Data Trafik
+          </a>
         </div>
       </div>
     </HydrateClient>
