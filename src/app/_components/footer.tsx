@@ -1,23 +1,6 @@
 import Image from "next/image";
 
 const navigation = {
-  partners: [
-    { name: "SedekahJe", href: "https://sedekahje.com" },
-    { name: "Quran Manzil", href: "https://quran-manzil.com" },
-    { name: "Quran Sunnah AI", href: "https://quran-sunnah-ai.com" },
-    { name: "Belasungkawa", href: "https://belasungkawa.my/" },
-  ],
-  resources: [
-    {
-      name: "Kod Sumber Terbuka",
-      href: "https://github.com/afrieirham/kelasmengajionline",
-    },
-    {
-      name: "Data Trafik",
-      href: "https://analytics.afrieirham.com/share/Kyk6iqyzQ74OaQOg/kelasmengaji.online",
-    },
-    { name: "Logo", href: "https://www.flaticon.com/free-icons/holy" },
-  ],
   social: [
     {
       name: "X",
@@ -54,6 +37,53 @@ const navigation = {
           />
         </svg>
       ),
+    },
+  ],
+  partners: [
+    { name: "SedekahJe", href: "https://sedekahje.com" },
+    { name: "Quran Manzil", href: "https://quran-manzil.com" },
+    { name: "Quran Sunnah AI", href: "https://quran-sunnah-ai.com" },
+    { name: "Belasungkawa", href: "https://belasungkawa.my/" },
+  ],
+  resources: [
+    {
+      name: "Kod Sumber Terbuka",
+      href: "https://github.com/afrieirham/kelasmengajionline",
+    },
+    {
+      name: "Data Trafik",
+      href: "https://analytics.afrieirham.com/share/Kyk6iqyzQ74OaQOg/kelasmengaji.online",
+    },
+    { name: "Logo", href: "https://www.flaticon.com/free-icons/holy" },
+  ],
+  projects: [
+    {
+      name: "typit.in",
+      href: "https://typit.in",
+    },
+    {
+      name: "BukitJalilStadium.com",
+      href: "https://bukitjalilstadium.com",
+    },
+    {
+      name: "WasepJe.com",
+      href: "https://wasepje.com",
+    },
+    {
+      name: "PakejKajwin.com",
+      href: "https://pakejkahwin.com",
+    },
+    {
+      name: "CariKabel.com",
+      href: "https://carikabel.com",
+    },
+    {
+      name: "Kerja-IT.com",
+      href: "https://kerja-it.com",
+    },
+    {
+      name: "ResepiKA.com",
+      href: "https://resepika.com",
     },
   ],
 };
@@ -102,7 +132,7 @@ export default function Footer() {
                   {navigation.partners.map((item) => (
                     <li key={item.name}>
                       <a
-                        href={item.href}
+                        href={item.href + "?ref=kelasmengaji.online"}
                         target="_blank"
                         className="text-sm leading-6 text-gray-600 hover:text-gray-900"
                       >
@@ -131,11 +161,31 @@ export default function Footer() {
                 </ul>
               </div>
             </div>
+            <div className="md:grid md:grid-cols-2 md:gap-8">
+              <div className="mt-10 md:mt-0">
+                <h3 className="text-sm font-semibold leading-6 text-gray-900">
+                  Projek Lain
+                </h3>
+                <ul role="list" className="mt-6 space-y-4">
+                  {navigation.projects.map((item) => (
+                    <li key={item.name}>
+                      <a
+                        href={item.href + "?ref=kelasmengaji.online"}
+                        target="_blank"
+                        className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+                      >
+                        {item.name}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
         <div className="mt-16 flex items-center justify-between border-t border-gray-900/10 pt-8 sm:mt-20">
           <p className="text-xs leading-5 text-gray-500">
-            &copy; {new Date().getFullYear()} All rights reserved.
+            &copy; {new Date().getFullYear()} Hak Cipta Terpelihara
           </p>
           <a
             href="https://afrieirham.com"
