@@ -3,6 +3,7 @@ import Link from "next/link";
 
 import { Button } from "@/components/ui/button";
 import { HydrateClient } from "@/trpc/server";
+import Footer from "./_components/footer";
 
 const classes = [
   {
@@ -99,46 +100,7 @@ export default async function Home() {
             </a>
           ))}
         </main>
-        <div className="flex w-full items-center justify-center space-x-2 py-8 text-xs text-gray-500">
-          <span>
-            Dibina oleh{" "}
-            <a
-              href="https://x.com/afrieirham_"
-              target="_blank"
-              className="hover:underline"
-            >
-              Afrie
-            </a>
-          </span>
-          <span>•</span>
-          <span>
-            Logo daripada{" "}
-            <a
-              href="https://www.flaticon.com/free-icons/holy"
-              target="_blank"
-              title="holy icons"
-              className="hover:underline"
-            >
-              Atif Arshad
-            </a>
-          </span>
-          <span>•</span>
-          <a
-            href="https://github.com/afrieirham/kelasmengajionline"
-            target="_blank"
-            className="hover:underline"
-          >
-            Sumber Terbuka (Open Source)
-          </a>
-          <span>•</span>
-          <a
-            href="https://analytics.afrieirham.com/share/Kyk6iqyzQ74OaQOg/kelasmengaji.online"
-            target="_blank"
-            className="hover:underline"
-          >
-            Data Trafik
-          </a>
-        </div>
+        <Footer />
       </div>
     </HydrateClient>
   );
