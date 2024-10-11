@@ -162,7 +162,7 @@ export default function Footer() {
               </div>
             </div>
             <div className="md:grid md:grid-cols-2 md:gap-8">
-              <div className="mt-10 md:mt-0">
+              <div>
                 <h3 className="text-sm font-semibold leading-6 text-gray-900">
                   Projek Lain
                 </h3>
