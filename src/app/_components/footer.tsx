@@ -90,20 +90,20 @@ const navigation = {
 
 export default function Footer() {
   return (
-    <footer aria-labelledby="footer-heading" className="mt-16">
+    <footer aria-labelledby="footer-heading" className="my-16">
       <h2 id="footer-heading" className="sr-only">
         Footer
       </h2>
-      <div className="mx-auto max-w-screen-lg px-4 py-16">
+      <div className="mx-auto max-w-screen-lg px-4 py-8">
         <div className="xl:grid xl:grid-cols-3 xl:gap-8">
           <div className="space-y-8">
             <Image
               alt="Logo Kelas Mengaji dot Online"
-              src="/favicon.ico"
-              width={200}
+              src="/logo.png"
+              width={1000}
               height={200}
               title="Logo by Atif Arshad on Flaticon"
-              className="h-8 w-8 cursor-pointer"
+              className="w-[180px] cursor-pointer"
             />
             <p className="text-sm leading-6 text-gray-600">
               Laman web senarai kelas mengaji online di Malaysia.

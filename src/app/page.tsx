@@ -50,7 +50,7 @@ export default async function Home() {
   return (
     <HydrateClient>
       <div className="flex flex-col px-4">
-        <nav className="mx-auto mt-4 flex w-full max-w-screen-xl items-center justify-between py-4">
+        <nav className="mx-auto flex w-full max-w-screen-xl items-center justify-between py-4">
           <Logo />
 
           <div className="relative">
@@ -58,10 +58,11 @@ export default async function Home() {
               disabled
               className="cursor-not-allowed"
               title="Akan datang..."
+              size="sm"
             >
               Tambah Kelas
             </Button>
-            <p className="absolute bottom-0 -mb-5 w-full text-center text-xs">
+            <p className="absolute bottom-0 -mb-5 w-full text-center text-[10px] text-gray-500">
               Akan datang...
             </p>
           </div>
@@ -113,7 +114,7 @@ function Logo() {
         src="/logo.png"
         width={870}
         height={180}
-        className="w-[200px]"
+        className="w-[180px] sm:w-[200px]"
         alt="Logo Kelas Mengaji Online"
       />
     </Link>
