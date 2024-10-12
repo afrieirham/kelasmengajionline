@@ -4,15 +4,15 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React from "react";
 
-import { Home } from "lucide-react";
+import { UsersRoundIcon } from "lucide-react";
 
 import Logo from "./logo";
 
 const links = [
   {
-    title: "Dashboard",
+    title: "Pengajar",
     href: "/dashboard",
-    Icon: Home,
+    Icon: UsersRoundIcon,
   },
 ];
 

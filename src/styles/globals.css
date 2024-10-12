@@ -61,6 +61,6 @@
     @apply border-border;
   }
   body {
-    @apply text-foreground bg-gray-100;
+    @apply text-foreground bg-gray-50;
   }
 }
