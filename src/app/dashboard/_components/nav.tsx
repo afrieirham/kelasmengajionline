@@ -41,7 +41,7 @@ function Nav({ type }: { type: "desktop" | "mobile" }) {
   }
 
   return (
-    <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
+    <nav className="grid items-start px-2 text-sm font-medium sm:px-4">
       {links.map((link) => (
         <Link
           key={link.href}

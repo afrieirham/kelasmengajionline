@@ -16,7 +16,7 @@ export default function DashboardPage() {
       <div className="flex flex-col gap-8">
         <div>
           <p className="text-lg font-bold">Maklumat Pengajar</p>
-          <div className="mt-4 flex flex-col gap-6 rounded-t-lg border bg-white p-6 sm:flex-row">
+          <div className="mt-4 flex flex-col gap-6 rounded-t-lg border bg-white p-6 lg:flex-row">
             <div className="w-full space-y-6">
               <div className="grid w-full max-w-sm items-center gap-2">
                 <Label htmlFor="instructor-type">Jenis Pengajar</Label>
@@ -72,7 +72,7 @@ export default function DashboardPage() {
         </div>
         <div>
           <p className="text-lg font-bold">Maklumat Lain</p>
-          <div className="mt-4 flex flex-col gap-6 rounded-t-lg border bg-white p-8 sm:flex-row">
+          <div className="mt-4 flex flex-col gap-6 rounded-t-lg border bg-white p-8 lg:flex-row">
             <div className="w-full space-y-6">
               <div className="grid w-full max-w-sm items-center gap-2">
                 <Label htmlFor="name">Nama</Label>

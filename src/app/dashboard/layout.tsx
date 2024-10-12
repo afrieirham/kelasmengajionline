@@ -20,10 +20,10 @@ export default function DashboardLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <SignedIn>
-      <div className="grid w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]">
+      <div className="grid min-h-screen w-full md:grid-cols-[280px_1fr]">
         <div className="bg-muted/40 hidden h-screen border-r md:block">
           <div className="flex h-full max-h-screen flex-col gap-2">
-            <div className="flex h-[8dvh] items-center border-b px-4 sm:px-6">
+            <div className="flex h-[8dvh] items-center border-b px-4 md:px-6">
               <Logo />
             </div>
             <div className="flex-1">
@@ -35,7 +35,7 @@ export default function DashboardLayout({
           </div>
         </div>
         <div className="flex h-screen flex-col overflow-scroll">
-          <header className="bg-muted/40 flex h-[8dvh] items-center justify-between gap-4 border-b px-4 sm:justify-end sm:px-6">
+          <header className="bg-muted/40 flex h-[8dvh] items-center justify-between gap-4 border-b px-4 md:justify-end md:px-6">
             <Sheet>
               <SheetTrigger asChild>
                 <Button
@@ -56,7 +56,7 @@ export default function DashboardLayout({
             </Sheet>
             <ClerkUserButton />
           </header>
-          <main className="flex h-[92dvh] flex-1 flex-col gap-4 overflow-scroll p-4 lg:gap-6 lg:p-6">
+          <main className="flex h-[92dvh] flex-1 flex-col gap-4 overflow-scroll p-4 md:gap-6 md:p-6">
             {children}
           </main>
         </div>
