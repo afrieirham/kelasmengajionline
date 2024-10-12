@@ -66,13 +66,13 @@ export default function DashboardPage() {
               </div>
             </div>
           </div>
-          <div className="w-full rounded-b-lg border-x border-b bg-gray-100 p-6">
+          <div className="w-full rounded-b-lg border-x border-b bg-gray-100 px-6 py-4">
             <Button>Simpan</Button>
           </div>
         </div>
         <div>
           <p className="text-lg font-bold">Maklumat Lain</p>
-          <div className="mt-4 flex flex-col gap-6 rounded-t-lg border bg-white p-8 lg:flex-row">
+          <div className="mt-4 flex flex-col gap-6 rounded-t-lg border bg-white p-6 lg:flex-row">
             <div className="w-full space-y-6">
               <div className="grid w-full max-w-sm items-center gap-2">
                 <Label htmlFor="name">Nama</Label>
@@ -96,7 +96,7 @@ export default function DashboardPage() {
               </div>
             </div>
           </div>
-          <div className="w-full rounded-b-lg border-x border-b bg-gray-100 p-6">
+          <div className="w-full rounded-b-lg border-x border-b bg-gray-100 px-6 py-4">
             <Button>Simpan</Button>
           </div>
         </div>
