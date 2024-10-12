@@ -44,6 +44,7 @@ const navigation = {
     { name: "Quran Manzil", href: "https://quran-manzil.com" },
     { name: "Quran Sunnah AI", href: "https://quran-sunnah-ai.com" },
     { name: "Belasungkawa", href: "https://belasungkawa.my/" },
+    { name: "Meem", href: "https://usemeem.com/" },
   ],
   resources: [
     {
