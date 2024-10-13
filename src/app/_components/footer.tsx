@@ -43,8 +43,10 @@ const navigation = {
     { name: "SedekahJe", href: "https://sedekahje.com" },
     { name: "Quran Manzil", href: "https://quran-manzil.com" },
     { name: "Quran Sunnah AI", href: "https://quran-sunnah-ai.com" },
-    { name: "Belasungkawa", href: "https://belasungkawa.my/" },
-    { name: "Meem", href: "https://usemeem.com/" },
+    { name: "Belasungkawa", href: "https://belasungkawa.my" },
+    { name: "Meem", href: "https://usemeem.com" },
+    { name: "duaa.my", href: "https://duaa.my" },
+    { name: "Semak Hadis", href: "https://semakhadis.com" },
   ],
   resources: [
     {
