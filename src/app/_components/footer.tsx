@@ -74,7 +74,7 @@ const navigation = {
       href: "https://wasepje.com",
     },
     {
-      name: "PakejKajwin.com",
+      name: "PakejKahwin.com",
       href: "https://pakejkahwin.com",
     },
     {
