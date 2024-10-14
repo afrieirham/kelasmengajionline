@@ -128,7 +128,7 @@ export default function Footer() {
           </div>
           <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
             <div className="md:grid md:grid-cols-2 md:gap-8">
-              <div className="mt-10 md:mt-0">
+              <div>
                 <h3 className="text-sm font-semibold leading-6 text-gray-900">
                   Rujukan
                 </h3>
@@ -146,7 +146,7 @@ export default function Footer() {
                   ))}
                 </ul>
               </div>
-              <div>
+              <div className="mt-10 md:mt-0">
                 <h3 className="text-sm font-semibold leading-6 text-gray-900">
                   Lawati Juga
                 </h3>
