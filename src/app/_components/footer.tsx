@@ -46,8 +46,9 @@ const navigation = {
     { name: "Belasungkawa", href: "https://belasungkawa.my" },
     { name: "Meem", href: "https://usemeem.com" },
     { name: "duaa.my", href: "https://duaa.my" },
-    { name: "Semak Hadis", href: "https://semakhadis.com" },
+    { name: "SemakHadis.com", href: "https://semakhadis.com" },
     { name: "CariTadika.my", href: "https://caritadika.my" },
+    { name: "e-Masjid.my", href: "https://e-masjid.my" },
   ],
   resources: [
     {
