@@ -49,6 +49,11 @@ const navigation = {
     { name: "SemakHadis.com", href: "https://semakhadis.com" },
     { name: "CariTadika.my", href: "https://caritadika.my" },
     { name: "e-Masjid.my", href: "https://e-masjid.my" },
+    { name: "Quran.my", href: "https://quran.my" },
+    { name: "Masjid TV", href: "https://masjid.org.my" },
+    { name: "Baca Al Quran", href: "https://bacalah.org" },
+    { name: "Kitab Hadis", href: "https://kitabhadis.com" },
+    { name: "Kitab Selawat", href: "https://kitabselawat.com" },
   ],
   resources: [
     {
