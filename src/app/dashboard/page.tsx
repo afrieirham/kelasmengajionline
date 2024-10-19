@@ -88,20 +88,57 @@ export default function DashboardPage() {
                 <Input id="website" />
               </div>
               <div className="grid w-full max-w-sm items-center gap-2">
-                <Label htmlFor="instagram">Instagram</Label>
-                <Input id="instagram" />
-              </div>
-              <div className="grid w-full max-w-sm items-center gap-2">
-                <Label htmlFor="tiktok">TikTok</Label>
-                <Input id="tiktok" />
-              </div>
-              <div className="grid w-full max-w-sm items-center gap-2">
                 <Label htmlFor="facebook">Facebook</Label>
                 <Input id="facebook" />
               </div>
               <div className="grid w-full max-w-sm items-center gap-2">
-                <Label htmlFor="twitter">Twitter</Label>
-                <Input id="twitter" />
+                <div className="space-y-2">
+                  <Label htmlFor="instagram">Instagram</Label>
+
+                  <div className="flex rounded-lg shadow-sm shadow-black/[.04]">
+                    <span className="inline-flex items-center rounded-l-lg border border-input bg-background px-3 text-sm text-muted-foreground">
+                      https://instagram.com/
+                    </span>
+                    <Input
+                      id="instagram"
+                      className="-ml-px rounded-l-none shadow-none"
+                      placeholder="afrieirham"
+                      type="text"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="grid w-full max-w-sm items-center gap-2">
+                <div className="space-y-2">
+                  <Label htmlFor="tiktok">TikTok</Label>
+                  <div className="flex rounded-lg shadow-sm shadow-black/[.04]">
+                    <span className="inline-flex items-center rounded-l-lg border border-input bg-background px-3 text-sm text-muted-foreground">
+                      https://tiktok.com/
+                    </span>
+                    <Input
+                      id="tiktok"
+                      className="-ml-px rounded-l-none shadow-none"
+                      placeholder="@afrieirham"
+                      type="text"
+                    />
+                  </div>
+                </div>
+              </div>
+              <div className="grid w-full max-w-sm items-center gap-2">
+                <div className="space-y-2">
+                  <Label htmlFor="twitter">Twitter</Label>
+                  <div className="flex rounded-lg shadow-sm shadow-black/[.04]">
+                    <span className="inline-flex items-center rounded-l-lg border border-input bg-background px-3 text-sm text-muted-foreground">
+                      https://x.com/
+                    </span>
+                    <Input
+                      id="twitter"
+                      className="-ml-px rounded-l-none shadow-none"
+                      placeholder="afrieirham_"
+                      type="text"
+                    />
+                  </div>
+                </div>
               </div>
             </div>
           </div>
