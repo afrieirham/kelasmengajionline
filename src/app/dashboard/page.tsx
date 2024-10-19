@@ -1,3 +1,8 @@
+"use client";
+import { useState } from "react";
+
+import { useAutoAnimate } from "@formkit/auto-animate/react";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -10,40 +15,55 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
+enum instructor {
+  individual = "individual",
+  organization = "organization",
+}
+
 export default function DashboardPage() {
+  const [parent] = useAutoAnimate();
+  const [type, setType] = useState(instructor.organization);
+
   return (
     <>
       <div className="flex flex-col gap-8">
         <div>
           <p className="text-lg font-bold">Maklumat Pengajar</p>
           <div className="mt-4 flex flex-col gap-6 rounded-t-lg border bg-white p-6 lg:flex-row">
-            <div className="w-full space-y-6">
+            <div className="w-full space-y-6" ref={parent}>
               <div className="grid w-full max-w-sm items-center gap-2">
                 <Label htmlFor="instructor-type">Jenis Pengajar</Label>
-                <Select>
+                <Select
+                  value={type}
+                  onValueChange={(value: instructor) => setType(value)}
+                >
                   <SelectTrigger>
                     <SelectValue placeholder="Pilih jenis pengajar" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="individual">Individu</SelectItem>
-                    <SelectItem value="organization">Organisasi</SelectItem>
+                    <SelectItem value={instructor.individual}>
+                      Individu
+                    </SelectItem>
+                    <SelectItem value={instructor.organization}>
+                      Organisasi
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
-              <div className="grid w-full max-w-sm items-center gap-2">
-                <Label htmlFor="instructor-type">
-                  Jantina Pengajar (individu sahaja)
-                </Label>
-                <Select>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Pilih jantina pengajar" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="lelaki">Lelaki</SelectItem>
-                    <SelectItem value="perempuan">Perempuan</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+              {type === instructor.individual && (
+                <div className="grid w-full max-w-sm items-center gap-2">
+                  <Label htmlFor="instructor-type">Jantina Pengajar</Label>
+                  <Select>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Pilih jantina pengajar" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="lelaki">Lelaki</SelectItem>
+                      <SelectItem value="perempuan">Perempuan</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              )}
               <div className="grid w-full max-w-sm items-center gap-2">
                 <Label htmlFor="logo">Gambar</Label>
                 <Input id="logo" type="file" />
@@ -85,28 +105,19 @@ export default function DashboardPage() {
           </div>
         </div>
         <div>
-          <p className="text-lg font-bold">Maklumat Lain</p>
+          <p className="text-lg font-bold">Maklumat Perhubungan</p>
           <div className="mt-4 flex flex-col gap-6 rounded-t-lg border bg-white p-6 lg:flex-row">
             <div className="w-full space-y-6">
               <div className="grid w-full max-w-sm items-center gap-2">
-                <Label htmlFor="name">Nama</Label>
-                <Input id="name" />
-              </div>
-              <div className="grid w-full max-w-sm items-center gap-2">
-                <Label htmlFor="instructor-type">Jantina</Label>
-                <Select>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Pilih jantina" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="male">Lelaki</SelectItem>
-                    <SelectItem value="female">Perempuan</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="grid w-full max-w-sm items-center gap-2">
                 <Label htmlFor="phone">Nombor Telefon</Label>
                 <Input id="phone" placeholder="60 13 123 1234" />
+              </div>
+              <div className="grid w-full max-w-sm items-center gap-2">
+                <Label htmlFor="message">Template Mesej (Optional)</Label>
+                <Textarea
+                  id="message"
+                  placeholder="Asalamualaikum, saya berminat untuk sertai kelas mengaji online."
+                />
               </div>
             </div>
           </div>
@@ -117,33 +128,35 @@ export default function DashboardPage() {
         <div>
           <p className="text-lg font-bold">Maklumat Kelas</p>
           <div className="mt-4 flex flex-col gap-6 rounded-t-lg border bg-white p-6 lg:flex-row">
-            <div className="w-full space-y-6">
-              <div className="grid w-full max-w-sm items-center gap-2">
-                <p className="text-sm font-medium">
-                  Pengajar terdiri daripada (organisasi sahaja)
-                </p>
-                {[{ title: "Guru lelaki" }, { title: "Guru perempuan" }].map(
-                  (tag, i) => (
-                    <div
-                      key={String(`${tag.title}-${i}`)}
-                      className="flex items-center gap-2"
-                    >
-                      {tag.title && (
-                        <input
-                          type="checkbox"
-                          id={String(`${tag.title}-${i}`)}
-                        />
-                      )}
-                      <Label
-                        htmlFor={String(`${tag.title}-${i}`)}
-                        className="font-normal"
+            <div className="w-full space-y-6" ref={parent}>
+              {type === instructor.organization && (
+                <div className="grid w-full max-w-sm items-center gap-2">
+                  <p className="text-sm font-medium">
+                    Pengajar terdiri daripada
+                  </p>
+                  {[{ title: "Guru lelaki" }, { title: "Guru perempuan" }].map(
+                    (tag, i) => (
+                      <div
+                        key={String(`${tag.title}-${i}`)}
+                        className="flex items-center gap-2"
                       >
-                        {tag.title}
-                      </Label>
-                    </div>
-                  ),
-                )}
-              </div>
+                        {tag.title && (
+                          <input
+                            type="checkbox"
+                            id={String(`${tag.title}-${i}`)}
+                          />
+                        )}
+                        <Label
+                          htmlFor={String(`${tag.title}-${i}`)}
+                          className="font-normal"
+                        >
+                          {tag.title}
+                        </Label>
+                      </div>
+                    ),
+                  )}
+                </div>
+              )}
               <div className="grid w-full max-w-sm items-center gap-2">
                 <p className="text-sm font-medium">Penyertaan Kelas</p>
                 {[
