@@ -181,15 +181,34 @@ export default function DashboardPage() {
               </div>
               <div className="grid w-full max-w-sm items-center gap-2">
                 <p className="text-sm font-medium">Menerima Pelajar</p>
+                <p className="text-sm">Lelaki</p>
                 {[
-                  { title: "Kanak-kanak lelaki" },
-                  { title: "Remaja lelaki" },
-                  { title: "Dewasa lelaki" },
-                  { title: "Warga emas lelaki" },
-                  { title: "Kanak-kanak perempuan" },
-                  { title: "Remaja perempuan" },
-                  { title: "Dewasa perempuan" },
-                  { title: "Warga emas perempuan" },
+                  { title: "Kanak-kanak (12 tahun dan ke bawah)" },
+                  { title: "Remaja (13 tahun dan ke atas)" },
+                  { title: "Dewasa (18 tahun dan ke atas)" },
+                  { title: "Warga emas (60 tahun dan ke atas)" },
+                ].map((tag, i) => (
+                  <div
+                    key={String(`${tag.title}-${i}`)}
+                    className="flex items-center gap-2"
+                  >
+                    {tag.title && (
+                      <input type="checkbox" id={String(`${tag.title}-${i}`)} />
+                    )}
+                    <Label
+                      htmlFor={String(`${tag.title}-${i}`)}
+                      className="font-normal"
+                    >
+                      {tag.title}
+                    </Label>
+                  </div>
+                ))}
+                <p className="mt-2 text-sm">Perempuan</p>
+                {[
+                  { title: "Kanak-kanak (12 tahun dan ke bawah)" },
+                  { title: "Remaja (13 tahun dan ke atas)" },
+                  { title: "Dewasa (18 tahun dan ke atas)" },
+                  { title: "Warga emas (60 tahun dan ke atas)" },
                 ].map((tag, i) => (
                   <div
                     key={String(`${tag.title}-${i}`)}
@@ -233,12 +252,31 @@ export default function DashboardPage() {
               </div>
               <div className="grid w-full max-w-sm items-center gap-2">
                 <p className="text-sm font-medium">Yuran Kelas</p>
+                <p className="text-sm">Yuran Tetap</p>
                 {[
+                  { title: "Bulanan" },
+                  { title: "Mengikut sesi" },
+                  { title: "Mengikut umur pelajar" },
+                ].map((tag, i) => (
+                  <div
+                    key={String(`${tag.title}-${i}`)}
+                    className="flex items-center gap-2"
+                  >
+                    {tag.title && (
+                      <input type="checkbox" id={String(`${tag.title}-${i}`)} />
+                    )}
+                    <Label
+                      htmlFor={String(`${tag.title}-${i}`)}
+                      className="font-normal"
+                    >
+                      {tag.title}
+                    </Label>
+                  </div>
+                ))}
+                <p className="mt-2 text-sm">Yuran Flexible</p>
+                {[
+                  { title: "Pelajar tentukan yuran" },
                   { title: "Tiada yuran pendaftaran" },
-                  { title: "Yuran flexible" },
-                  { title: "Yuran tetap bulanan" },
-                  { title: "Yuran tetap mengikut sesi" },
-                  { title: "Yuran tetap mengikut umur pelajar" },
                   { title: "Bayaran seikhlas hati" },
                 ].map((tag, i) => (
                   <div
