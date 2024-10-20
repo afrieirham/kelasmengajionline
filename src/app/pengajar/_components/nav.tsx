@@ -11,7 +11,7 @@ import Logo from "./logo";
 const links = [
   {
     title: "Pengajar",
-    href: "/dashboard",
+    href: "/pengajar",
     Icon: UsersRoundIcon,
   },
 ];
@@ -29,7 +29,7 @@ function Nav({ type }: { type: "desktop" | "mobile" }) {
               key={link.href}
               href={link.href}
               data-active={pathname.startsWith(link.href)}
-              className="text-muted-foreground hover:bg-muted hover:text-foreground data-[active=true]:bg-muted data-[active=true]:text-primary flex items-center space-x-2 rounded-lg px-3 py-2"
+              className="flex items-center space-x-2 rounded-lg px-3 py-2 text-muted-foreground hover:bg-muted hover:text-foreground data-[active=true]:bg-muted data-[active=true]:text-primary"
             >
               <link.Icon className="h-4 w-4" />
               <span>{link.title}</span>
@@ -47,7 +47,7 @@ function Nav({ type }: { type: "desktop" | "mobile" }) {
           key={link.href}
           href={link.href}
           data-active={pathname.startsWith(link.href)}
-          className="text-muted-foreground hover:text-primary data-[active=true]:text-primary flex items-center space-x-2 rounded-lg px-3 py-2 transition-all hover:bg-gray-200 data-[active=true]:bg-gray-200"
+          className="flex items-center space-x-2 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:bg-gray-200 hover:text-primary data-[active=true]:bg-gray-200 data-[active=true]:text-primary"
         >
           <link.Icon className="h-4 w-4" />
           <span>{link.title}</span>

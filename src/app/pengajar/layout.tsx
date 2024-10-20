@@ -12,16 +12,16 @@ import Logo from "./_components/logo";
 import Nav from "./_components/nav";
 
 export const metadata: Metadata = {
-  title: "Dashboard | Kelas Mengaji Online",
+  title: "Pengajar | Kelas Mengaji Online",
 };
 
-export default function DashboardLayout({
+export default function PengajarLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <SignedIn>
       <div className="grid min-h-screen w-full md:grid-cols-[280px_1fr]">
-        <div className="bg-muted/40 hidden h-screen border-r md:block">
+        <div className="hidden h-screen border-r bg-muted/40 md:block">
           <div className="flex h-full max-h-screen flex-col gap-2">
             <div className="flex h-[8dvh] items-center border-b px-4 md:px-6">
               <Logo />
@@ -35,7 +35,7 @@ export default function DashboardLayout({
           </div>
         </div>
         <div className="flex h-screen flex-col overflow-scroll">
-          <header className="bg-muted/40 flex h-[8dvh] items-center justify-between gap-4 border-b px-4 md:justify-end md:px-6">
+          <header className="flex h-[8dvh] items-center justify-between gap-4 border-b bg-muted/40 px-4 md:justify-end md:px-6">
             <Sheet>
               <SheetTrigger asChild>
                 <Button

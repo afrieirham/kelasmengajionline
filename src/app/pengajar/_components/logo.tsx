@@ -4,7 +4,7 @@ import React from "react";
 
 function Logo() {
   return (
-    <Link href="/dashboard" className="flex items-center gap-2 font-semibold">
+    <Link href="/pengajar" className="flex items-center gap-2 font-semibold">
       <Image
         src="/favicon.ico"
         width={200}

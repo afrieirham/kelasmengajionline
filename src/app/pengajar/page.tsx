@@ -22,7 +22,7 @@ enum instructor {
   organization = "organization",
 }
 
-export default function DashboardPage() {
+export default function PengajarPage() {
   const [parent] = useAutoAnimate();
 
   const [counter, setCounter] = useState(1);
