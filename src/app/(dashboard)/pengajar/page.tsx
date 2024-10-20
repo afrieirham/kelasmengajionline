@@ -14,11 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-
-export enum instructor {
-  individual = "individual",
-  organization = "organization",
-}
+import { instructor } from "../types";
 
 export default function PengajarPage() {
   const [parent] = useAutoAnimate();

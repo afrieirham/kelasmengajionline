@@ -7,9 +7,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import PhoneContactForm from "../pengajar/_components/phone-contact-form";
-import TestLinkButton from "../pengajar/_components/test-link-button";
-import { instructor } from "../pengajar/page";
+
+import { instructor } from "../types";
+import PhoneContactForm from "./_components/phone-contact-form";
+import TestLinkButton from "./_components/test-link-button";
 
 function PerhubunganPage() {
   const type = instructor.individual;
