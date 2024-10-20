@@ -6,7 +6,7 @@ import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { instructor } from "../pengajar/page";
+import { instructor } from "../types";
 
 function KelasPage() {
   const type = instructor.organization;
