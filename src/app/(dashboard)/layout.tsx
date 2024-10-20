@@ -7,15 +7,15 @@ import ClerkUserButton from "@/components/common/clerk-user-button";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
-import CTACard from "./_components/cta-card";
-import Logo from "./_components/logo";
-import Nav from "./_components/nav";
+import CTACard from "./pengajar/_components/cta-card";
+import Logo from "./pengajar/_components/logo";
+import Nav from "./pengajar/_components/nav";
 
 export const metadata: Metadata = {
-  title: "Pengajar | Kelas Mengaji Online",
+  title: "Dashboard | Kelas Mengaji Online",
 };
 
-export default function PengajarLayout({
+export default function DashboardLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
