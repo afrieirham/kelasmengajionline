@@ -54,7 +54,7 @@ function PerhubunganPage() {
   return (
     <div>
       <p className="text-lg font-bold">Maklumat Perhubungan (WhatsApp)</p>
-      <div className="flex flex-col gap-6 rounded-t-lg border bg-white p-6 lg:flex-row">
+      <div className="mt-4 flex flex-col gap-6 rounded-t-lg border bg-white p-6 lg:flex-row">
         <div className="w-full space-y-6">
           <div className="grid w-full max-w-sm items-center gap-2">
             <Label htmlFor="message">Template Mesej (Optional)</Label>
