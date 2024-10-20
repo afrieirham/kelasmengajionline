@@ -1,10 +1,11 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
 import React from "react";
 
-import { UsersRoundIcon } from "lucide-react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+import { PhoneIcon, PresentationIcon, UsersRoundIcon } from "lucide-react";
 
 import Logo from "./logo";
 
@@ -13,6 +14,16 @@ const links = [
     title: "Pengajar",
     href: "/pengajar",
     Icon: UsersRoundIcon,
+  },
+  {
+    title: "Kelas",
+    href: "/kelas",
+    Icon: PresentationIcon,
+  },
+  {
+    title: "Perhubungan",
+    href: "/perhubungan",
+    Icon: PhoneIcon,
   },
 ];
 
@@ -41,7 +52,7 @@ function Nav({ type }: { type: "desktop" | "mobile" }) {
   }
 
   return (
-    <nav className="grid items-start px-2 text-sm font-medium sm:px-4">
+    <nav className="grid items-start gap-2 px-2 text-sm font-medium sm:px-4">
       {links.map((link) => (
         <Link
           key={link.href}
