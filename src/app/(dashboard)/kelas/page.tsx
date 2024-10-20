@@ -1,8 +1,4 @@
-"use client";
-
 import React from "react";
-
-import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -10,13 +6,12 @@ import { instructor } from "../types";
 
 function KelasPage() {
   const type = instructor.organization;
-  const [parent] = useAutoAnimate();
 
   return (
     <div>
       <p className="text-lg font-bold">Maklumat Kelas</p>
       <div className="mt-4 flex flex-col gap-6 rounded-t-lg border bg-white p-6 lg:flex-row">
-        <div className="w-full space-y-6" ref={parent}>
+        <div className="w-full space-y-6">
           {type === instructor.organization && (
             <div className="grid w-full max-w-sm items-center gap-2">
               <p className="text-sm font-medium">Pengajar terdiri daripada</p>
