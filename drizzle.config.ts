@@ -8,5 +8,5 @@ export default {
   dbCredentials: {
     url: env.DATABASE_URL,
   },
-  tablesFilter: ["kelasmengajionline_*"],
+  tablesFilter: ["kmo_*"],
 } satisfies Config;
