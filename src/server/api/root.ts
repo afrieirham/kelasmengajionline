@@ -1,4 +1,4 @@
-import { instructorRouter } from "@/server/api/routers/instructor";
+import { tagRouter } from "@/server/api/routers/tags";
 import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
 
 /**
@@ -7,7 +7,7 @@ import { createCallerFactory, createTRPCRouter } from "@/server/api/trpc";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  instructor: instructorRouter,
+  tag: tagRouter,
 });
 
 // export type definition of API
