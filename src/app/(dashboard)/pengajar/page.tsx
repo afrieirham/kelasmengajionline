@@ -73,11 +73,24 @@ export default function PengajarPage() {
         <div className="w-full space-y-6">
           <div className="grid w-full max-w-sm items-center gap-2">
             <Label htmlFor="website">Website</Label>
-            <Input id="website" />
+            <Input id="website" placeholder="afrieirham.com" />
           </div>
+
           <div className="grid w-full max-w-sm items-center gap-2">
-            <Label htmlFor="facebook">Facebook</Label>
-            <Input id="facebook" />
+            <div className="space-y-2">
+              <Label htmlFor="facebook">Facebook</Label>
+              <div className="flex rounded-lg shadow-sm shadow-black/[.04]">
+                <span className="inline-flex items-center rounded-l-lg border border-input bg-background px-3 text-sm text-muted-foreground">
+                  facebook.com/
+                </span>
+                <Input
+                  id="facebook"
+                  className="-ml-px rounded-l-none shadow-none"
+                  placeholder="afrieirham"
+                  type="text"
+                />
+              </div>
+            </div>
           </div>
           <div className="grid w-full max-w-sm items-center gap-2">
             <div className="space-y-2">
@@ -85,7 +98,7 @@ export default function PengajarPage() {
 
               <div className="flex rounded-lg shadow-sm shadow-black/[.04]">
                 <span className="inline-flex items-center rounded-l-lg border border-input bg-background px-3 text-sm text-muted-foreground">
-                  https://instagram.com/
+                  instagram.com/
                 </span>
                 <Input
                   id="instagram"
@@ -101,7 +114,7 @@ export default function PengajarPage() {
               <Label htmlFor="tiktok">TikTok</Label>
               <div className="flex rounded-lg shadow-sm shadow-black/[.04]">
                 <span className="inline-flex items-center rounded-l-lg border border-input bg-background px-3 text-sm text-muted-foreground">
-                  https://tiktok.com/
+                  tiktok.com/
                 </span>
                 <Input
                   id="tiktok"
@@ -117,7 +130,7 @@ export default function PengajarPage() {
               <Label htmlFor="twitter">Twitter</Label>
               <div className="flex rounded-lg shadow-sm shadow-black/[.04]">
                 <span className="inline-flex items-center rounded-l-lg border border-input bg-background px-3 text-sm text-muted-foreground">
-                  https://x.com/
+                  x.com/
                 </span>
                 <Input
                   id="twitter"
