@@ -2,7 +2,7 @@ import React from "react";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { UserRole } from "@/enums";
+import { UserRole } from "@/types";
 import { db } from "@/server/db";
 
 async function KelasPage() {

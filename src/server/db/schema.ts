@@ -12,7 +12,7 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 import { createId } from "@paralleldrive/cuid2";
-import { GenderArray, TagGroupArray, UserRoleArray } from "@/enums";
+import { GenderArray, TagGroupArray, UserRoleArray } from "@/types";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same

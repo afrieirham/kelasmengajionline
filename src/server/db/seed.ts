@@ -1,9 +1,9 @@
 import "dotenv/config";
-
-import { db } from "../db";
-import { type TagGroupType } from "@/enums";
-import { tag as tagSchema } from "./schema";
 import { exit } from "process";
+
+import { type TagGroupType } from "@/types";
+import { db } from "../db";
+import { tag as tagSchema } from "./schema";
 
 type Tag = {
   name: string;
