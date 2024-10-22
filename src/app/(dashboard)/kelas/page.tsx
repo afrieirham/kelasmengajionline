@@ -21,9 +21,7 @@ function KelasPage() {
                     key={String(`${tag.title}-${i}`)}
                     className="flex items-center gap-2"
                   >
-                    {tag.title && (
-                      <input type="checkbox" id={String(`${tag.title}-${i}`)} />
-                    )}
+                    <input type="checkbox" id={String(`${tag.title}-${i}`)} />
                     <Label
                       htmlFor={String(`${tag.title}-${i}`)}
                       className="font-normal"
@@ -43,9 +41,7 @@ function KelasPage() {
                   key={String(`${tag.title}-${i}`)}
                   className="flex items-center gap-2"
                 >
-                  {tag.title && (
-                    <input type="checkbox" id={String(`${tag.title}-${i}`)} />
-                  )}
+                  <input type="checkbox" id={String(`${tag.title}-${i}`)} />
                   <Label
                     htmlFor={String(`${tag.title}-${i}`)}
                     className="font-normal"
@@ -69,9 +65,7 @@ function KelasPage() {
                 key={String(`${tag.title}-${i}`)}
                 className="flex items-center gap-2"
               >
-                {tag.title && (
-                  <input type="checkbox" id={String(`${tag.title}-${i}`)} />
-                )}
+                <input type="checkbox" id={String(`${tag.title}-${i}`)} />
                 <Label
                   htmlFor={String(`${tag.title}-${i}`)}
                   className="font-normal"
@@ -91,9 +85,7 @@ function KelasPage() {
                 key={String(`${tag.title}-${i}`)}
                 className="flex items-center gap-2"
               >
-                {tag.title && (
-                  <input type="checkbox" id={String(`${tag.title}-${i}`)} />
-                )}
+                <input type="checkbox" id={String(`${tag.title}-${i}`)} />
                 <Label
                   htmlFor={String(`${tag.title}-${i}`)}
                   className="font-normal"
@@ -108,16 +100,14 @@ function KelasPage() {
             <p className="text-sm font-medium">Format Kelas</p>
             {[
               { title: "Kelas online" },
-              { title: "Kelas fizikal di tempat kami" },
               { title: "Kelas fizikal di tempat student" },
+              { title: "Kelas fizikal di tempat kami" },
             ].map((tag, i) => (
               <div
                 key={String(`${tag.title}-${i}`)}
                 className="flex items-center gap-2"
               >
-                {tag.title && (
-                  <input type="checkbox" id={String(`${tag.title}-${i}`)} />
-                )}
+                <input type="checkbox" id={String(`${tag.title}-${i}`)} />
                 <Label
                   htmlFor={String(`${tag.title}-${i}`)}
                   className="font-normal"
@@ -139,9 +129,7 @@ function KelasPage() {
                 key={String(`${tag.title}-${i}`)}
                 className="flex items-center gap-2"
               >
-                {tag.title && (
-                  <input type="checkbox" id={String(`${tag.title}-${i}`)} />
-                )}
+                <input type="checkbox" id={String(`${tag.title}-${i}`)} />
                 <Label
                   htmlFor={String(`${tag.title}-${i}`)}
                   className="font-normal"
@@ -160,9 +148,7 @@ function KelasPage() {
                 key={String(`${tag.title}-${i}`)}
                 className="flex items-center gap-2"
               >
-                {tag.title && (
-                  <input type="checkbox" id={String(`${tag.title}-${i}`)} />
-                )}
+                <input type="checkbox" id={String(`${tag.title}-${i}`)} />
                 <Label
                   htmlFor={String(`${tag.title}-${i}`)}
                   className="font-normal"
@@ -182,9 +168,7 @@ function KelasPage() {
                 key={String(`${tag.title}-${i}`)}
                 className="flex items-center gap-2"
               >
-                {tag.title && (
-                  <input type="checkbox" id={String(`${tag.title}-${i}`)} />
-                )}
+                <input type="checkbox" id={String(`${tag.title}-${i}`)} />
                 <Label
                   htmlFor={String(`${tag.title}-${i}`)}
                   className="font-normal"
@@ -206,9 +190,7 @@ function KelasPage() {
                 key={String(`${tag.title}-${i}`)}
                 className="flex items-center gap-2"
               >
-                {tag.title && (
-                  <input type="checkbox" id={String(`${tag.title}-${i}`)} />
-                )}
+                <input type="checkbox" id={String(`${tag.title}-${i}`)} />
                 <Label
                   htmlFor={String(`${tag.title}-${i}`)}
                   className="font-normal"
