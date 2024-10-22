@@ -3,13 +3,16 @@
 
 import { relations, sql } from "drizzle-orm";
 import {
+  numeric,
   pgEnum,
   pgTableCreator,
+  primaryKey,
   text,
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
 import { createId } from "@paralleldrive/cuid2";
+import { TagGroupArray } from "./enums";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -19,15 +22,19 @@ import { createId } from "@paralleldrive/cuid2";
  */
 export const createTable = pgTableCreator((name) => `kmo_${name}`);
 
-export const Instructor = pgEnum("Instructor", ["individual", "organization"]);
+// start users
 export const Gender = pgEnum("Gender", ["male", "female"]);
-
-export const instructor = createTable("instructors", {
+export const UserRole = pgEnum("UserRole", [
+  "individual",
+  "organization",
+  "admin",
+]);
+export const user = createTable("users", {
   id: text("id")
     .primaryKey()
     .$defaultFn(() => createId())
     .notNull(),
-  type: Instructor("type").notNull(),
+  role: UserRole("role").notNull(),
   gender: Gender("gender"),
   photoUrl: text("photo_url"),
   name: varchar("name", { length: 256 }).notNull(),
@@ -46,11 +53,13 @@ export const instructor = createTable("instructors", {
     () => new Date(),
   ),
 });
-
-export const instructorRelations = relations(instructor, ({ many }) => ({
+export const userRelations = relations(user, ({ many }) => ({
   contact: many(contact),
+  userToTag: many(userToTag),
 }));
+// end users
 
+// start contacts
 export const contact = createTable("contacts", {
   id: text("id")
     .primaryKey()
@@ -60,7 +69,9 @@ export const contact = createTable("contacts", {
   name: varchar("name", { length: 256 }).notNull(),
   message: text("message"),
 
-  instructorId: text("instructor_id").references(() => instructor.id),
+  userId: text("user_id")
+    .references(() => user.id)
+    .notNull(),
   createdAt: timestamp("created_at", { withTimezone: true })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
@@ -68,10 +79,62 @@ export const contact = createTable("contacts", {
     () => new Date(),
   ),
 });
-
 export const contactRelations = relations(contact, ({ one }) => ({
-  instructor: one(instructor, {
-    fields: [contact.instructorId],
-    references: [instructor.id],
+  user: one(user, {
+    fields: [contact.userId],
+    references: [user.id],
   }),
 }));
+// end contacts
+
+// start tags
+export const TagGroup = pgEnum("Group", TagGroupArray);
+export const tag = createTable("tags", {
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => createId())
+    .notNull(),
+
+  name: varchar("name", { length: 256 }).notNull(),
+  group: TagGroup("group").notNull(),
+  slug: varchar("slug", { length: 256 }).notNull().unique(),
+  order: numeric("order").notNull(),
+
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: timestamp("updated_at", { withTimezone: true }).$onUpdate(
+    () => new Date(),
+  ),
+});
+export const tagRelations = relations(tag, ({ many }) => ({
+  userToTag: many(userToTag),
+}));
+// end tags
+
+// start user_to_tags
+export const userToTag = createTable(
+  "users_to_tags",
+  {
+    userId: text("user_id")
+      .references(() => user.id)
+      .notNull(),
+    tagId: text("tag_id")
+      .references(() => tag.id)
+      .notNull(),
+  },
+  (t) => ({
+    pk: primaryKey({ columns: [t.userId, t.tagId] }),
+  }),
+);
+export const userToTagRelations = relations(userToTag, ({ one }) => ({
+  user: one(user, {
+    fields: [userToTag.userId],
+    references: [user.id],
+  }),
+  tag: one(tag, {
+    fields: [userToTag.tagId],
+    references: [tag.id],
+  }),
+}));
+// end user_to_tags
