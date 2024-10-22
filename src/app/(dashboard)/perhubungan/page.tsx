@@ -7,20 +7,20 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { instructor } from "@/enums";
+import { UserRole } from "@/enums";
 
 import PhoneContactForm from "./_components/phone-contact-form";
 import TestLinkButton from "./_components/test-link-button";
 
 function PerhubunganPage() {
-  const type = instructor.individual;
+  const type = UserRole.Individual;
   const [parent] = useAutoAnimate();
 
   const [counter, setCounter] = useState(1);
   const [phones, setPhones] = useState([{ id: 0, name: "", value: "" }]);
   const [message, setMessage] = useState("");
 
-  if (type === instructor.individual) {
+  if (type === UserRole.Individual) {
     return (
       <div>
         <p className="text-lg font-bold">Maklumat Perhubungan (WhatsApp)</p>

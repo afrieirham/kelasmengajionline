@@ -12,7 +12,7 @@ import {
   varchar,
 } from "drizzle-orm/pg-core";
 import { createId } from "@paralleldrive/cuid2";
-import { TagGroupArray } from "@/enums";
+import { TagGroupArray, UserRoleArray } from "@/enums";
 
 /**
  * This is an example of how to use the multi-project schema feature of Drizzle ORM. Use the same
@@ -24,11 +24,7 @@ export const createTable = pgTableCreator((name) => `kmo_${name}`);
 
 // start users
 export const Gender = pgEnum("Gender", ["male", "female"]);
-export const UserRole = pgEnum("UserRole", [
-  "individual",
-  "organization",
-  "admin",
-]);
+export const UserRole = pgEnum("UserRole", UserRoleArray);
 export const user = createTable("users", {
   id: text("id")
     .primaryKey()

@@ -8,10 +8,12 @@ export const TagGroupArray = [
   "class_schedule",
   "others",
 ] as const;
+export type TagGroupType = (typeof TagGroupArray)[number];
 
-export type TagGroupEnum = (typeof TagGroupArray)[number];
-
-export enum instructor {
-  individual = "individual",
-  organization = "organization",
+export const UserRoleArray = ["individual", "organization", "admin"] as const;
+export enum UserRole {
+  Admin = "admin",
+  Individual = "individual",
+  Organization = "organization",
 }
+export type UserRoleType = (typeof UserRoleArray)[number];

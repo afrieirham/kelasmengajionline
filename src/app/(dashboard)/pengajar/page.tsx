@@ -14,12 +14,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { instructor } from "@/enums";
+import { UserRole } from "@/enums";
 
 export default function PengajarPage() {
   const [parent] = useAutoAnimate();
 
-  const [type, setType] = useState<instructor | "">("");
+  const [type, setType] = useState<UserRole | "">("");
 
   return (
     <div>
@@ -30,20 +30,20 @@ export default function PengajarPage() {
             <Label htmlFor="instructor-type">Jenis Pengajar</Label>
             <Select
               value={type}
-              onValueChange={(value: instructor) => setType(value)}
+              onValueChange={(value: UserRole) => setType(value)}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Pilih jenis pengajar" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value={instructor.individual}>Individu</SelectItem>
-                <SelectItem value={instructor.organization}>
+                <SelectItem value={UserRole.Individual}>Individu</SelectItem>
+                <SelectItem value={UserRole.Organization}>
                   Organisasi
                 </SelectItem>
               </SelectContent>
             </Select>
           </div>
-          {type === instructor.individual && (
+          {type === UserRole.Individual && (
             <div className="grid w-full max-w-sm items-center gap-2">
               <Label htmlFor="instructor-type">Jantina Pengajar</Label>
               <Select>

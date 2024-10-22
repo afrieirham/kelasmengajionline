@@ -2,12 +2,11 @@ import React from "react";
 
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-
-import { instructor } from "@/enums";
+import { UserRole } from "@/enums";
 import { db } from "@/server/db";
 
 async function KelasPage() {
-  const type = instructor.organization;
+  const type = UserRole.Organization;
   const tags = await db.query.tag.findMany();
   return (
     <form
@@ -26,7 +25,7 @@ async function KelasPage() {
       <p className="text-lg font-bold">Maklumat Kelas</p>
       <div className="mt-4 flex flex-col gap-6 rounded-t-lg border bg-white p-6 lg:flex-row">
         <div className="w-full space-y-6">
-          {type === instructor.organization && (
+          {type === UserRole.Organization && (
             <div className="grid w-full max-w-sm items-center gap-2 rounded-lg border p-4">
               <p className="text-sm font-medium">Pengajar terdiri daripada</p>
               {tags

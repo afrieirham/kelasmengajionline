@@ -1,20 +1,20 @@
 import "dotenv/config";
 
 import { db } from "../db";
-import { type TagGroupEnum } from "./enums";
+import { type TagGroupType } from "@/enums";
 import { tag as tagSchema } from "./schema";
 import { exit } from "process";
 
 type Tag = {
   name: string;
-  group: TagGroupEnum;
+  group: TagGroupType;
   order: string;
   slug: string;
 };
 
 const createTag = (
   name: string,
-  group: TagGroupEnum,
+  group: TagGroupType,
   order: string,
   slug?: string,
 ): Tag => ({
