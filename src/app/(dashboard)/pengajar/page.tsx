@@ -14,7 +14,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { instructor } from "../types";
+import { instructor } from "@/enums";
 
 export default function PengajarPage() {
   const [parent] = useAutoAnimate();

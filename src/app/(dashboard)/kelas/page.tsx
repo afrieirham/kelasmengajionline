@@ -3,8 +3,7 @@ import React from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 
-import { instructor } from "../types";
-
+import { instructor } from "@/enums";
 import { db } from "@/server/db";
 
 async function KelasPage() {

@@ -10,3 +10,8 @@ export const TagGroupArray = [
 ] as const;
 
 export type TagGroupEnum = (typeof TagGroupArray)[number];
+
+export enum instructor {
+  individual = "individual",
+  organization = "organization",
+}
