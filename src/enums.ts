@@ -17,3 +17,6 @@ export enum UserRole {
   Organization = "organization",
 }
 export type UserRoleType = (typeof UserRoleArray)[number];
+
+export const GenderArray = ["male", "female"] as const;
+export type GenderType = (typeof GenderArray)[number];
