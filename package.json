@@ -6,7 +6,9 @@
     "build": "react-router build",
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
-    "typecheck": "react-router typegen && tsc"
+    "typecheck": "react-router typegen && tsc",
+    "lint": "biome check",
+    "format:tailwind": "prettier --write \"src/**/*.{ts,tsx}\" --plugin prettier-plugin-tailwindcss"
   },
   "dependencies": {
     "@react-router/node": "7.12.0",
@@ -17,11 +19,14 @@
     "react-router": "7.12.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.4.4",
     "@react-router/dev": "7.12.0",
     "@tailwindcss/vite": "^4.1.13",
     "@types/node": "^22",
     "@types/react": "^19.2.7",
     "@types/react-dom": "^19.2.3",
+    "prettier": "^3.8.1",
+    "prettier-plugin-tailwindcss": "^0.7.2",
     "tailwindcss": "^4.1.13",
     "typescript": "^5.9.2",
     "vite": "^7.1.7",
