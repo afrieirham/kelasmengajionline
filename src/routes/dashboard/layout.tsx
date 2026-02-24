@@ -23,7 +23,7 @@ export default function DashboardLayout() {
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
           <div className="flex items-center gap-4">
             <NavLink to="/dashboard" className="text-xl font-bold">
-              Dashboard
+              Papan Pemuka
             </NavLink>
           </div>
           <div className="flex items-center gap-4">
@@ -33,7 +33,7 @@ export default function DashboardLayout() {
             </div>
             <Button variant="outline" size="sm" onClick={handleSignOut}>
               <LogOut className="h-4 w-4" />
-              Sign Out
+              Log Keluar
             </Button>
           </div>
         </div>

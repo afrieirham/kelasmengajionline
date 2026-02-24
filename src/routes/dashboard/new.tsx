@@ -74,7 +74,7 @@ export async function action({ request }: { request: Request }) {
     .limit(1);
 
   if (existingSlug.length > 0) {
-    return { error: "Slug is already taken. Please choose another." };
+    return { error: "Slug telah digunakan. Sila pilih yang lain." };
   }
 
   const id = crypto.randomUUID();
@@ -127,9 +127,9 @@ export default function DashboardNewProfile() {
   return (
     <div>
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Create New Profile</h1>
+        <h1 className="text-2xl font-bold">Cipta Profil Baharu</h1>
         <Link to="/dashboard">
-          <Button variant="outline">Back to Dashboard</Button>
+          <Button variant="outline">Kembali ke Papan Pemuka</Button>
         </Link>
       </div>
 
@@ -142,12 +142,12 @@ export default function DashboardNewProfile() {
       <Form method="post" className="space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle>Basic Information</CardTitle>
+            <CardTitle>Maklumat Asas</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="name">Name *</Label>
+                <Label htmlFor="name">Nama *</Label>
                 <Input
                   name="name"
                   id="name"
@@ -175,24 +175,24 @@ export default function DashboardNewProfile() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="type">Type</Label>
+              <Label htmlFor="type">Jenis</Label>
               <Select name="type" defaultValue="individual">
                 <SelectTrigger>
                   <SelectValue className="capitalize" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="individual">Individual</SelectItem>
-                  <SelectItem value="organization">Organization</SelectItem>
+                  <SelectItem value="individual">Individu</SelectItem>
+                  <SelectItem value="organization">Organisasi</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="headline">Headline</Label>
+              <Label htmlFor="headline">Tajuk</Label>
               <Input
                 name="headline"
                 id="headline"
-                placeholder="e.g., Guru Al-Quran berpengalaman 10 tahun"
+                placeholder="cth., Guru Al-Quran berpengalaman 10 tahun"
               />
             </div>
 
@@ -202,12 +202,12 @@ export default function DashboardNewProfile() {
                 name="bio"
                 id="bio"
                 rows={4}
-                placeholder="Describe your classes, teaching experience, etc."
+                placeholder="Terangkan kelas anda, pengalaman mengajar, dll."
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="imageUrl">Image URL</Label>
+              <Label htmlFor="imageUrl">URL Imej</Label>
               <Input name="imageUrl" id="imageUrl" placeholder="https://..." />
             </div>
           </CardContent>
@@ -215,12 +215,12 @@ export default function DashboardNewProfile() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Contact Information</CardTitle>
+            <CardTitle>Maklumat Perhubungan</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="whatsappNumber">WhatsApp Number</Label>
+                <Label htmlFor="whatsappNumber">Nombor WhatsApp</Label>
                 <Input
                   name="whatsappNumber"
                   id="whatsappNumber"
@@ -228,17 +228,17 @@ export default function DashboardNewProfile() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="whatsappLabel">WhatsApp Label</Label>
+                <Label htmlFor="whatsappLabel">Label WhatsApp</Label>
                 <Input
                   name="whatsappLabel"
                   id="whatsappLabel"
-                  placeholder="e.g., Untuk pertanyaan"
+                  placeholder="cth., Untuk pertanyaan"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="websiteUrl">Website URL</Label>
+              <Label htmlFor="websiteUrl">URL Laman Web</Label>
               <Input
                 name="websiteUrl"
                 id="websiteUrl"
@@ -250,7 +250,7 @@ export default function DashboardNewProfile() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Tags</CardTitle>
+            <CardTitle>Tag</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             {Object.entries(tagsByGroup).map(([group, tags]) => (
@@ -281,7 +281,7 @@ export default function DashboardNewProfile() {
 
         <div className="flex gap-2">
           <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Creating..." : "Create Profile"}
+            {isSubmitting ? "Mencipta..." : "Cipta Profil"}
           </Button>
         </div>
       </Form>

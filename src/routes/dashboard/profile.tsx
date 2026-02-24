@@ -108,7 +108,7 @@ export async function action({ request }: { request: Request }) {
       .limit(1);
 
     if (existingSlug.length > 0) {
-      return { error: "Slug is already taken. Please choose another." };
+      return { error: "Slug telah digunakan. Sila pilih yang lain." };
     }
   }
 
@@ -164,7 +164,7 @@ export default function DashboardProfile() {
   return (
     <div>
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">My Profile</h1>
+        <h1 className="text-2xl font-bold">Profil Saya</h1>
       </div>
 
       {actionData?.error && (
@@ -175,19 +175,19 @@ export default function DashboardProfile() {
 
       {actionData?.success && (
         <div className="mb-4 rounded bg-green-50 p-4 text-green-600">
-          Profile saved successfully!
+          Profil berjaya disimpan!
         </div>
       )}
 
       <Form method="post" className="space-y-6">
         <Card>
           <CardHeader>
-            <CardTitle>Basic Information</CardTitle>
+            <CardTitle>Maklumat Asas</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="name">Name *</Label>
+                <Label htmlFor="name">Nama *</Label>
                 <Input
                   name="name"
                   id="name"
@@ -215,25 +215,25 @@ export default function DashboardProfile() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="type">Type</Label>
+              <Label htmlFor="type">Jenis</Label>
               <Select name="type" defaultValue={profile?.type || "individual"}>
                 <SelectTrigger>
                   <SelectValue className="capitalize" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="individual">Individual</SelectItem>
-                  <SelectItem value="organization">Organization</SelectItem>
+                  <SelectItem value="individual">Individu</SelectItem>
+                  <SelectItem value="organization">Organisasi</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="headline">Headline</Label>
+              <Label htmlFor="headline">Tajuk</Label>
               <Input
                 name="headline"
                 id="headline"
                 defaultValue={profile?.headline || ""}
-                placeholder="e.g., Guru Al-Quran berpengalaman 10 tahun"
+                placeholder="cth., Guru Al-Quran berpengalaman 10 tahun"
               />
             </div>
 
@@ -244,12 +244,12 @@ export default function DashboardProfile() {
                 id="bio"
                 rows={4}
                 defaultValue={profile?.bio || ""}
-                placeholder="Describe your classes, teaching experience, etc."
+                placeholder="Terangkan kelas anda, pengalaman mengajar, dll."
               />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="imageUrl">Image URL</Label>
+              <Label htmlFor="imageUrl">URL Imej</Label>
               <Input
                 name="imageUrl"
                 id="imageUrl"
@@ -262,12 +262,12 @@ export default function DashboardProfile() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Contact Information</CardTitle>
+            <CardTitle>Maklumat Perhubungan</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="whatsappNumber">WhatsApp Number</Label>
+                <Label htmlFor="whatsappNumber">Nombor WhatsApp</Label>
                 <Input
                   name="whatsappNumber"
                   id="whatsappNumber"
@@ -276,18 +276,18 @@ export default function DashboardProfile() {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="whatsappLabel">WhatsApp Label</Label>
+                <Label htmlFor="whatsappLabel">Label WhatsApp</Label>
                 <Input
                   name="whatsappLabel"
                   id="whatsappLabel"
                   defaultValue={profile?.whatsappLabel || ""}
-                  placeholder="e.g., Untuk pertanyaan"
+                  placeholder="cth., Untuk pertanyaan"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="websiteUrl">Website URL</Label>
+              <Label htmlFor="websiteUrl">URL Laman Web</Label>
               <Input
                 name="websiteUrl"
                 id="websiteUrl"
@@ -300,7 +300,7 @@ export default function DashboardProfile() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Tags</CardTitle>
+            <CardTitle>Tag</CardTitle>
           </CardHeader>
           <CardContent className="space-y-6">
             {Object.entries(tagsByGroup).map(([group, tags]) => (
@@ -334,10 +334,10 @@ export default function DashboardProfile() {
 
         <div className="flex gap-2">
           <Button type="submit" disabled={isSubmitting}>
-            {isSubmitting ? "Saving..." : "Save Profile"}
+            {isSubmitting ? "Menyimpan..." : "Simpan Profil"}
           </Button>
           <Link to={`/@${profile.slug}`} target="_blank">
-            <Button variant="outline">View Profile</Button>
+            <Button variant="outline">Lihat Profil</Button>
           </Link>
         </div>
       </Form>
