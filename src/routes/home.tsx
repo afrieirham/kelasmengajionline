@@ -1,6 +1,6 @@
-import Footer from "src/components/widget/footer";
-import Logo from "src/components/widget/logo";
 import { Button } from "@/components/core/button";
+import Footer from "@/components/widget/footer";
+import Logo from "@/components/widget/logo";
 import type { Route } from "./+types/home";
 
 export function meta({}: Route.MetaArgs) {

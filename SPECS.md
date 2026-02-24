@@ -21,7 +21,7 @@
     - Data: id, slug (unique), name, group (Enum), order.
     - SEO: metaTitle, metaDescription, pageTitle, descriptionText.
 - ProfilesToTags Table: Junction table for many-to-many relationships between profiles and tags.
-- ClaimRequests Table: Records for verification proof and approval status for ownership claims.
+- ClaimRequests Table: Records for user claim messages and approval status (Unique constraint on userId + profileId).
 
 ## 3. Directory & Search System
 - Main Directory: Full-text search engine for profile names, headlines, and bios.
@@ -55,7 +55,7 @@
     - Profile Editor: Unified interface to manage bio, images, and contact links.
     - Tag Matrix: Interface to toggle target audiences and educational features.
     - Link-in-Bio Customizer: Ability to manage the visibility of social links.
-    - Verification Portal: Document upload system for credentials (SSM, Ijazah, Certs).
+    - Verification Portal: Claim submission interface with direct redirect to Admin Telegram for manual identity verification.
     - Analytics: Tracking dashboard for total profile views and CTA button clicks.
 
 ## 7. Performance & High Traffic Optimization
@@ -66,6 +66,6 @@
 
 ## 8. Admin & Monetization
 - Management Tools: Full CRUD access for Admin to manage all profiles, users, and tags.
-- Claim Moderation: Queue system to approve or reject profile ownership requests based on proof.
+- Claim Moderation: Queue system to approve or reject profile ownership requests based on manual Telegram verification.
 - Boosting Engine: System to toggle isBoosted status with automated expiration logic.
 - Tag SEO Editor: Admin interface to optimize meta content for specific high-traffic tags.
