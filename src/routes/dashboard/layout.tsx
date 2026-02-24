@@ -24,7 +24,7 @@ export default function DashboardLayout() {
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4">
           <div className="flex items-center gap-4">
             <NavLink to="/dashboard" className="text-xl font-bold">
-              Papan Pemuka
+              Dashboard
             </NavLink>
           </div>
           <div className="flex items-center gap-4">
@@ -50,7 +50,7 @@ export default function DashboardLayout() {
           </div>
         </div>
       </header>
-      <main className="mx-auto max-w-7xl p-4 md:p-8">
+      <main className="mx-auto max-w-7xl p-4 md:py-8">
         <Outlet />
       </main>
     </div>
