@@ -4,13 +4,11 @@ import { useState } from "react";
 import { useLoaderData } from "react-router";
 import { db } from "@/.server/db";
 import { profiles } from "@/.server/db/schema";
-import { Avatar, AvatarFallback } from "@/components/core/avatar";
 import { Button } from "@/components/core/button";
 import { Spinner } from "@/components/core/spinner";
 import Footer from "@/components/widget/footer";
 import Logo from "@/components/widget/logo";
 import { authClient } from "@/lib/auth-client";
-import { getNameInitials } from "@/lib/utils";
 import type { Route } from "./+types/home";
 
 export async function loader() {
@@ -89,23 +87,23 @@ export default function Home() {
             key={kelas.websiteUrl}
             target="_blank"
             href={`${kelas.websiteUrl}?ref=kelasmengaji.online`}
-            className="flex cursor-pointer items-center space-x-4 rounded-lg border bg-white p-4 hover:bg-gray-50"
+            className="flex cursor-pointer items-center justify-center space-x-4 rounded-lg border bg-white p-4 hover:bg-gray-50"
           >
-            {kelas.imageUrl ? (
-              <img
-                src={kelas.imageUrl}
-                className="max-h-12 min-h-12 max-w-12 min-w-12 rounded border object-contain p-1"
-                alt={`Logo ${kelas.name}`}
-              />
-            ) : (
-              <div className="flex max-h-12 min-h-12 max-w-12 min-w-12 items-center justify-center rounded border">
-                <Avatar>
-                  <AvatarFallback className="bg-emerald-900 text-white">
-                    {getNameInitials(kelas.name)}
-                  </AvatarFallback>
-                </Avatar>
-              </div>
-            )}
+            <div className="flex items-center justify-center">
+              {kelas.imageUrl ? (
+                <img
+                  src={kelas.imageUrl}
+                  className="max-h-12 min-h-12 max-w-12 min-w-12 rounded object-contain p-1"
+                  alt={`Logo ${kelas.name}`}
+                />
+              ) : (
+                <img
+                  src={`https://api.dicebear.com/9.x/glass/svg?seed=${kelas.name}${kelas.createdAt}`}
+                  className="max-h-12 min-h-12 max-w-12 min-w-12 rounded-full object-contain p-1"
+                  alt={`Logo ${kelas.name}`}
+                />
+              )}
+            </div>
             <div className="flex flex-col">
               <p className="font-semibold">{kelas.name}</p>
               <p className="line-clamp-2 text-sm text-gray-500">
