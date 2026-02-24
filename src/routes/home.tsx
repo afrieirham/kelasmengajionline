@@ -1,9 +1,13 @@
+import { ArrowUpRight } from "lucide-react";
+import { useState } from "react";
 import { useLoaderData } from "react-router";
 import { db } from "@/.server/db";
 import { profiles } from "@/.server/db/schema";
 import { Button } from "@/components/core/button";
+import { Spinner } from "@/components/core/spinner";
 import Footer from "@/components/widget/footer";
 import Logo from "@/components/widget/logo";
+import { authClient } from "@/lib/auth-client";
 import type { Route } from "./+types/home";
 
 export async function loader() {
@@ -33,30 +37,44 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   const { classes } = useLoaderData<typeof loader>();
+  const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const handleSignIn = async () => {
+    setIsLoggingIn(true);
+    await authClient.signIn.social({
+      provider: "google",
+      callbackURL: "/dashboard",
+    });
+  };
 
   return (
     <div className="flex flex-col px-4">
       <nav className="mx-auto flex w-full max-w-7xl items-center justify-between py-4">
         <Logo />
-        <Button variant="outline">Tambah Kelas (akan datang)</Button>
+        <Button onClick={handleSignIn} size="lg" disabled={isLoggingIn}>
+          {isLoggingIn && <Spinner />}
+          Tambah Kelas
+        </Button>
       </nav>
       <div className="mt-8 flex flex-col gap-4 text-center">
         <h1 className="text-3xl font-bold sm:text-4xl">
           Cari Kelas Mengaji Online di Malaysia
         </h1>
-        <div className="mx-auto max-w-sm space-y-4 rounded-lg text-gray-500">
+        <div className="mx-auto space-y-4 rounded-lg text-gray-500">
           <p className="text-sm italic">
             {
               '"Sebaik manusia di antara kamu adalah orang yang belajar al-Quran dan mengajarkannya."'
             }
           </p>
+        </div>
+        <div className="mx-auto text-xs text-gray-500">
           <a
             href="https://www.muftiwp.gov.my/ms/artikel/irsyad-al-hadith/6035-irsyad-al-hadith-siri-ke-564-pahala-bagi-mereka-yang-tidak-lancar-membaca-al-quran#:~:text=Sebaik%2Dbaik%20kalian%20adalah%20mereka%20yang%20belajar%20al%2DQuran%20dan%20mengajarkannya"
             target="_blank"
-            className="text-xs hover:underline"
+            className="text-xs hover:underline flex items-center gap-1"
             rel="noopener"
           >
-            Hadis Riwayat al-Bukhari
+            <span>Hadis Riwayat al-Bukhari</span>
+            <ArrowUpRight className="w-3 h-3" />
           </a>
         </div>
       </div>

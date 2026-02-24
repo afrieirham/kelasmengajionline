@@ -1,6 +1,7 @@
 import { relations } from "drizzle-orm";
 import {
   boolean,
+  index,
   integer,
   jsonb,
   pgEnum,
@@ -36,62 +37,84 @@ export const claimStatusEnum = pgEnum("claim_status", [
 
 // --- BETTER AUTH TABLES ---
 export const users = pgTable("users", {
-  id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
+  id: text("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
-  emailVerified: boolean("email_verified").notNull(),
+  emailVerified: boolean("email_verified").default(false).notNull(),
   image: text("image"),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at")
+    .defaultNow()
+    .$onUpdate(() => /* @__PURE__ */ new Date())
+    .notNull(),
   role: roleEnum("role").notNull().default("user"),
 });
 
-export const sessions = pgTable("sessions", {
-  id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
-  expiresAt: timestamp("expires_at").notNull(),
-  token: text("token").notNull().unique(),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
-  ipAddress: text("ip_address"),
-  userAgent: text("user_agent"),
-  userId: integer("user_id")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-});
+export const sessions = pgTable(
+  "sessions",
+  {
+    id: text("id").primaryKey(),
+    expiresAt: timestamp("expires_at").notNull(),
+    token: text("token").notNull().unique(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+      .$onUpdate(() => /* @__PURE__ */ new Date())
+      .notNull(),
+    ipAddress: text("ip_address"),
+    userAgent: text("user_agent"),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+  },
+  (table) => [index("sessions_userId_idx").on(table.userId)],
+);
 
-export const accounts = pgTable("accounts", {
-  id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
-  accountId: integer("account_id").notNull(),
-  providerId: integer("provider_id").notNull(),
-  userId: integer("user_id")
-    .notNull()
-    .references(() => users.id, { onDelete: "cascade" }),
-  accessToken: text("access_token"),
-  refreshToken: text("refresh_token"),
-  idToken: text("id_token"),
-  accessTokenExpiresAt: timestamp("access_token_expires_at"),
-  refreshTokenExpiresAt: timestamp("refresh_token_expires_at"),
-  scope: text("scope"),
-  password: text("password"),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
-});
+export const accounts = pgTable(
+  "accounts",
+  {
+    id: text("id").primaryKey(),
+    accountId: text("account_id").notNull(),
+    providerId: text("provider_id").notNull(),
+    userId: text("user_id")
+      .notNull()
+      .references(() => users.id, { onDelete: "cascade" }),
+    accessToken: text("access_token"),
+    refreshToken: text("refresh_token"),
+    idToken: text("id_token"),
+    accessTokenExpiresAt: timestamp("access_token_expires_at"),
+    refreshTokenExpiresAt: timestamp("refresh_token_expires_at"),
+    scope: text("scope"),
+    password: text("password"),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+      .$onUpdate(() => /* @__PURE__ */ new Date())
+      .notNull(),
+  },
+  (table) => [index("accounts_userId_idx").on(table.userId)],
+);
 
-export const verifications = pgTable("verifications", {
-  id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
-  identifier: text("identifier").notNull(),
-  value: text("value").notNull(),
-  expiresAt: timestamp("expires_at").notNull(),
-  createdAt: timestamp("created_at").defaultNow(),
-  updatedAt: timestamp("updated_at").defaultNow(),
-});
+export const verifications = pgTable(
+  "verifications",
+  {
+    id: text("id").primaryKey(),
+    identifier: text("identifier").notNull(),
+    value: text("value").notNull(),
+    expiresAt: timestamp("expires_at").notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at")
+      .defaultNow()
+      .$onUpdate(() => /* @__PURE__ */ new Date())
+      .notNull(),
+  },
+  (table) => [index("verifications_identifier_idx").on(table.identifier)],
+);
 
 // --- KMO DIRECTORY TABLES ---
 
 export const profiles = pgTable(
   "profiles",
   {
-    id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
+    id: text("id").primaryKey(),
     slug: text("slug").notNull().unique(),
     type: profileTypeEnum("type").notNull().default("individual"),
 
@@ -120,7 +143,7 @@ export const profiles = pgTable(
     isBoosted: boolean("is_boosted").notNull().default(false),
 
     // Ownership
-    ownerId: integer("owner_id").references(() => users.id, {
+    ownerId: text("owner_id").references(() => users.id, {
       onDelete: "set null",
     }),
 
@@ -131,7 +154,7 @@ export const profiles = pgTable(
 );
 
 export const tags = pgTable("tags", {
-  id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
+  id: text("id").primaryKey(),
   slug: text("slug").notNull().unique(),
   name: text("name").notNull(),
   group: tagGroupEnum("group").notNull(),
@@ -148,10 +171,10 @@ export const tags = pgTable("tags", {
 export const profilesToTags = pgTable(
   "profiles_to_tags",
   {
-    profileId: integer("profile_id")
+    profileId: text("profile_id")
       .notNull()
       .references(() => profiles.id, { onDelete: "cascade" }),
-    tagId: integer("tag_id")
+    tagId: text("tag_id")
       .notNull()
       .references(() => tags.id, { onDelete: "cascade" }),
   },
@@ -161,11 +184,11 @@ export const profilesToTags = pgTable(
 export const claimRequests = pgTable(
   "claim_requests",
   {
-    id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
-    profileId: integer("profile_id")
+    id: text("id").primaryKey(),
+    profileId: text("profile_id")
       .notNull()
       .references(() => profiles.id, { onDelete: "cascade" }),
-    userId: integer("user_id")
+    userId: text("user_id")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
 
@@ -185,9 +208,25 @@ export const claimRequests = pgTable(
 
 // --- RELATIONS (For Drizzle Relational Queries) ---
 
-export const userRelations = relations(users, ({ many }) => ({
+export const usersRelations = relations(users, ({ many }) => ({
   profiles: many(profiles),
   claimRequests: many(claimRequests),
+  sessions: many(sessions),
+  accounts: many(accounts),
+}));
+
+export const sessionsRelations = relations(sessions, ({ one }) => ({
+  users: one(users, {
+    fields: [sessions.userId],
+    references: [users.id],
+  }),
+}));
+
+export const accountsRelations = relations(accounts, ({ one }) => ({
+  users: one(users, {
+    fields: [accounts.userId],
+    references: [users.id],
+  }),
 }));
 
 export const profileRelations = relations(profiles, ({ one, many }) => ({

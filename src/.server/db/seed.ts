@@ -206,7 +206,10 @@ const tagsData = [
 async function seed() {
   console.log("🌱 Seeding tags...");
 
-  await db.insert(tags).values(tagsData).onConflictDoNothing();
+  await db
+    .insert(tags)
+    .values(tagsData.map((tag, idx) => ({ ...tag, id: `tag-${idx}` })))
+    .onConflictDoNothing();
   console.log(`✅ Inserted ${tagsData.length} tags`);
 }
 

@@ -9,6 +9,8 @@ export const env = createEnv({
       .default("development"),
     DATABASE_URL: z.url(),
     APP_URL: z.url(),
+    GOOGLE_CLIENT_ID: z.string(),
+    GOOGLE_CLIENT_SECRET: z.string(),
   },
   /**
    * What object holds the environment variables at runtime. This is usually
