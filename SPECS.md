@@ -15,8 +15,9 @@
     - Basic: id, slug (unique), type (Individual/Organization).
     - Content: name, bio, imageUrl, headline.
     - Contacts: whatsappNumber, websiteUrl, socialLinks (JSONB).
-    - Status: isClaimed, isVerified, isBoosted.
+    - Status: moderationStatus (Draft/Pending/Approved/Rejected), isClaimed, isBoosted.
     - Ownership: ownerId (Foreign Key to Users).
+    - Admin: adminNotes (Internal notes for vetting).
 - Tags Table:
     - Data: id, slug (unique), name, group (Enum), order.
     - SEO: metaTitle, metaDescription, pageTitle, descriptionText.
@@ -24,7 +25,7 @@
 - ClaimRequests Table: Records for user claim messages and approval status (Unique constraint on userId + profileId).
 
 ## 3. Directory & Search System
-- Main Directory: Full-text search engine for profile names, headlines, and bios.
+- Main Directory: Full-text search engine for profile names, headlines, and bios. (Publicly visible only for 'approved' moderationStatus).
 - Semantic Filter Groups:
     - Target Audience: Matrix-style tags for Gender + Age (e.g., Lelaki Dewasa, Perempuan Kanak-kanak).
     - Class Format: Online, Physical at Student's location, Physical at Center.
@@ -37,12 +38,12 @@
     - **Any** (default): Show all classes that have the selected tag. Classes with additional tags (e.g. both Perempuan Dewasa and Lelaki Dewasa) are included, since they still accept the selected audience. URL: `?tag=perempuan-dewasa`.
     - **Only**: Show classes that have the selected tag and no other tag in the same tag group (e.g. within Target Audience, only Perempuan Dewasa). Use case: "kelas khusus perempuan dewasa sahaja." URL: `?tag=perempuan-dewasa&mode=only`.
     - Implementation: Resolve tag slug to tag id and group; for "only" mode, exclude profiles that have any other tag in that group (e.g. NOT EXISTS subquery). UI: toggle or two links to switch between modes when a tag is selected.
-- Sorting Logic: Priority sorting (isBoosted first), followed by verified status, then most recently updated.
+- Sorting Logic: Priority sorting (isBoosted first), followed by most recently created.
 
 ## 4. Link-in-Bio Profile Pages (/@:slug)
 - URL Structure: Accessed via root with @ prefix (e.g., mengaji.online/@ustaz-afrie).
 - Design: Mobile-optimized, high-conversion layout for social media bio integration.
-- Trust Indicators: Prominent Verified and Claimed badges for vetted teachers.
+- Trust Indicators: Prominent "Vetted" (Approved) and Claimed badges.
 - Call to Action: Floating or fixed "WhatsApp Now" and "Official Website" buttons.
 - Badge System: Automatic rendering of perks and policies as visual chips on the profile.
 - SEO: Metadata dynamically generated from profile headline and bio.
@@ -51,25 +52,27 @@
 - Dynamic Category Routes: Auto-generated landing pages for every tag in the database.
 - Metadata Injection: Each page renders unique Meta Titles, H1 tags, and SEO descriptions from the Tags table.
 - Internal Linking: Profile badges link back to their respective category pages to build SEO authority.
-- Sitemap: Dynamic sitemap.xml including all @profile and /browse category URLs.
+- Sitemap: Dynamic sitemap.xml including all approved @profile and /browse category URLs.
 
 ## 6. Member & Dashboard System
 - Auth Flow: Google Social Login integration for seamless teacher onboarding.
 - Teacher Dashboard:
     - Profile Editor: Unified interface to manage bio, images, and contact links.
+    - Status Tracker: Visual indicator showing if the profile is in Draft, Pending Review, or Approved.
     - Tag Matrix: Interface to toggle target audiences and educational features.
     - Link-in-Bio Customizer: Ability to manage the visibility of social links.
-    - Verification Portal: Claim submission interface with direct redirect to Admin Telegram for manual identity verification.
+    - Submission Portal: Interface to submit draft profiles for Admin vetting or claim existing profiles.
     - Analytics: Tracking dashboard for total profile views and CTA button clicks.
 
 ## 7. Performance & High Traffic Optimization
 - Proxy Strategy: Cloudflare Proxy (Orange Cloud) enabled for Railway-hosted content.
 - Cache Strategy: Long-term s-maxage headers for all public @profile and /browse pages.
-- Dynamic Invalidation: Automated purge of specific URLs via Cloudflare API when a teacher updates their dashboard.
+- Dynamic Invalidation: Automated purge of specific URLs via Cloudflare API when a profile is approved or updated.
 - Hybrid Auth Display: Client-side session checks to toggle "Edit" buttons on cached public HTML pages.
 
 ## 8. Admin & Monetization
 - Management Tools: Full CRUD access for Admin to manage all profiles, users, and tags.
+- Moderation Queue: Centralized dashboard for Admin to review 'Pending' profiles for vetting and approval.
 - Claim Moderation: Queue system to approve or reject profile ownership requests based on manual Telegram verification.
 - Boosting Engine: System to toggle isBoosted status with automated expiration logic.
 - Tag SEO Editor: Admin interface to optimize meta content for specific high-traffic tags.

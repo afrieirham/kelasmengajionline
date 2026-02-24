@@ -28,6 +28,13 @@ export const tagGroupEnum = pgEnum("tag_group", [
   "kelebihan_tambahan",
 ]);
 
+export const moderationStatusEnum = pgEnum("moderation_status", [
+  "draft",
+  "pending",
+  "approved",
+  "rejected",
+]);
+
 export const claimStatusEnum = pgEnum("claim_status", [
   "pending",
   "approved",
@@ -44,7 +51,7 @@ export const users = pgTable("users", {
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
     .defaultNow()
-    .$onUpdate(() => /* @__PURE__ */ new Date())
+    .$onUpdate(() => new Date())
     .notNull(),
   role: roleEnum("role").notNull().default("user"),
 });
@@ -57,7 +64,7 @@ export const sessions = pgTable(
     token: text("token").notNull().unique(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at")
-      .$onUpdate(() => /* @__PURE__ */ new Date())
+      .$onUpdate(() => new Date())
       .notNull(),
     ipAddress: text("ip_address"),
     userAgent: text("user_agent"),
@@ -86,7 +93,7 @@ export const accounts = pgTable(
     password: text("password"),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at")
-      .$onUpdate(() => /* @__PURE__ */ new Date())
+      .$onUpdate(() => new Date())
       .notNull(),
   },
   (table) => [index("accounts_userId_idx").on(table.userId)],
@@ -102,7 +109,7 @@ export const verifications = pgTable(
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at")
       .defaultNow()
-      .$onUpdate(() => /* @__PURE__ */ new Date())
+      .$onUpdate(() => new Date())
       .notNull(),
   },
   (table) => [index("verifications_identifier_idx").on(table.identifier)],
@@ -137,14 +144,17 @@ export const profiles = pgTable(
       .default({}),
 
     // Status
+    moderationStatus: moderationStatusEnum("moderation_status")
+      .notNull()
+      .default("draft"),
     isClaimed: boolean("is_claimed").notNull().default(false),
-    isVerified: boolean("is_verified").notNull().default(false),
     isBoosted: boolean("is_boosted").notNull().default(false),
 
-    // Ownership
+    // Ownership & Admin
     ownerId: text("owner_id").references(() => users.id, {
       onDelete: "set null",
     }),
+    adminNotes: text("admin_notes"),
 
     createdAt: timestamp("created_at").notNull().defaultNow(),
     updatedAt: timestamp("updated_at").notNull().defaultNow(),
@@ -166,7 +176,6 @@ export const tags = pgTable("tags", {
   descriptionText: text("description_text"),
 });
 
-// Junction table for Many-to-Many relationship (Profiles <-> Tags)
 export const profilesToTags = pgTable(
   "profiles_to_tags",
   {
@@ -190,10 +199,7 @@ export const claimRequests = pgTable(
     userId: text("user_id")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
-
-    // Simplified: Just a message, verification happens on Telegram
     message: text("message"),
-
     status: claimStatusEnum("status").notNull().default("pending"),
     adminNotes: text("admin_notes"),
     createdAt: timestamp("created_at").notNull().defaultNow(),
@@ -205,7 +211,7 @@ export const claimRequests = pgTable(
   ],
 );
 
-// --- RELATIONS (For Drizzle Relational Queries) ---
+// --- RELATIONS ---
 
 export const usersRelations = relations(users, ({ many }) => ({
   profiles: many(profiles),
