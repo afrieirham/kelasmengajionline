@@ -33,6 +33,10 @@
     - Class Policy: Flexible timing, Replacement classes allowed.
     - Perks: Free trial class, Choose your own teacher.
 - Query Logic: Filter states managed via URL Search Parameters for shareable search results.
+- Tag Filter Modes (when user selects a tag, e.g. Perempuan Dewasa):
+    - **Any** (default): Show all classes that have the selected tag. Classes with additional tags (e.g. both Perempuan Dewasa and Lelaki Dewasa) are included, since they still accept the selected audience. URL: `?tag=perempuan-dewasa`.
+    - **Only**: Show classes that have the selected tag and no other tag in the same tag group (e.g. within Target Audience, only Perempuan Dewasa). Use case: "kelas khusus perempuan dewasa sahaja." URL: `?tag=perempuan-dewasa&mode=only`.
+    - Implementation: Resolve tag slug to tag id and group; for "only" mode, exclude profiles that have any other tag in that group (e.g. NOT EXISTS subquery). UI: toggle or two links to switch between modes when a tag is selected.
 - Sorting Logic: Priority sorting (isBoosted first), followed by verified status, then most recently updated.
 
 ## 4. Link-in-Bio Profile Pages (/@:slug)
