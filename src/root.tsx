@@ -29,6 +29,11 @@ export function Layout({ children }: { children: React.ReactNode }) {
       <head>
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script
+          defer
+          src="https://analytics.afrieirham.com/script.js"
+          data-website-id="90160b00-771f-4cf0-b67f-e44aa288f4f7"
+        />
         <Meta />
         <Links />
       </head>
