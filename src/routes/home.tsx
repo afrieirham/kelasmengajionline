@@ -1,5 +1,6 @@
 import Footer from "src/components/widget/footer";
 import Logo from "src/components/widget/logo";
+import { Button } from "@/components/core/button";
 import type { Route } from "./+types/home";
 
 export function meta({}: Route.MetaArgs) {
@@ -19,6 +20,7 @@ export default function Home() {
     <div className="flex flex-col px-4">
       <nav className="mx-auto flex w-full max-w-7xl items-center justify-between py-4">
         <Logo />
+        <Button variant="outline">Tambah Kelas (akan datang)</Button>
       </nav>
       <div className="mt-8 flex flex-col gap-4 text-center">
         <h1 className="text-3xl font-bold sm:text-4xl">
