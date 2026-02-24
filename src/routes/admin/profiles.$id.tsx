@@ -1,4 +1,5 @@
 import { eq } from "drizzle-orm";
+import { useRef, useState } from "react";
 import {
   Form,
   Link,
@@ -27,6 +28,7 @@ import {
 import { Switch } from "@/components/core/switch";
 import { Textarea } from "@/components/core/textarea";
 import { requireAdmin } from "@/lib/admin";
+import { slugify } from "@/lib/slugify";
 
 export async function loader({
   request,
@@ -99,7 +101,7 @@ export async function action({
         isVerified,
         isBoosted,
       });
-      return redirect(`/admin/profiles/${id}`);
+      return redirect("/admin/profiles?success=true");
     } else {
       await db
         .update(profiles)
@@ -121,7 +123,7 @@ export async function action({
         .where(eq(profiles.id, profileId));
     }
 
-    return { success: true };
+    return redirect("/admin/profiles?success=true");
   }
 
   return { success: false };
@@ -131,6 +133,17 @@ export default function AdminProfileEdit() {
   const { profile, users } = useLoaderData<typeof loader>();
   const _actionData = useActionData<typeof action>();
   const isNew = !profile;
+
+  const [name, setName] = useState(profile?.name || "");
+  const [slug, setSlug] = useState(profile?.slug || "");
+  const slugEdited = useRef(false);
+
+  const handleNameChange = (value: string) => {
+    setName(value);
+    if (!slugEdited.current) {
+      setSlug(slugify(value));
+    }
+  };
 
   return (
     <div>
@@ -157,7 +170,8 @@ export default function AdminProfileEdit() {
                 <Input
                   name="name"
                   id="name"
-                  defaultValue={profile?.name || ""}
+                  value={name}
+                  onChange={(e) => handleNameChange(e.target.value)}
                   required
                 />
               </div>
@@ -166,8 +180,12 @@ export default function AdminProfileEdit() {
                 <Input
                   name="slug"
                   id="slug"
-                  defaultValue={profile?.slug || ""}
+                  value={slug}
                   required
+                  onChange={(e) => {
+                    setSlug(e.target.value);
+                    slugEdited.current = true;
+                  }}
                 />
               </div>
             </div>

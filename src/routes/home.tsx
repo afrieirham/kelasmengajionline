@@ -1,3 +1,4 @@
+import { desc } from "drizzle-orm";
 import { ArrowUpRight } from "lucide-react";
 import { useState } from "react";
 import { useLoaderData } from "react-router";
@@ -17,8 +18,10 @@ export async function loader() {
       headline: profiles.headline,
       imageUrl: profiles.imageUrl,
       websiteUrl: profiles.websiteUrl,
+      createdAt: profiles.createdAt,
     })
-    .from(profiles);
+    .from(profiles)
+    .orderBy(desc(profiles.createdAt));
 
   return { classes };
 }

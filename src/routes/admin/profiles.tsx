@@ -1,4 +1,5 @@
-import { eq, or } from "drizzle-orm";
+import { desc, eq, or } from "drizzle-orm";
+import { useEffect } from "react";
 import { Form, Link, useLoaderData, useSearchParams } from "react-router";
 import { db } from "@/.server/db";
 import { profiles, users } from "@/.server/db/schema";
@@ -31,8 +32,10 @@ export async function loader({ request }: { request: Request }) {
       isVerified: profiles.isVerified,
       isBoosted: profiles.isBoosted,
       ownerId: profiles.ownerId,
+      createdAt: profiles.createdAt,
     })
-    .from(profiles);
+    .from(profiles)
+    .orderBy(desc(profiles.createdAt));
 
   let filtered = profileList;
   if (search) {
@@ -112,6 +115,14 @@ export default function AdminProfiles() {
     ownerMap,
   } = useLoaderData<typeof loader>();
   const [_searchParams, setSearchParams] = useSearchParams();
+  const success = _searchParams.get("success") === "true";
+
+  useEffect(() => {
+    if (success) {
+      alert("Profile saved successfully!");
+      setSearchParams({});
+    }
+  }, [success, setSearchParams]);
 
   const _handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
