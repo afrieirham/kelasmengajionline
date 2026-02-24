@@ -1,5 +1,5 @@
 {
-  "name": "kelasmengaji.online",
+  "name": "kelasmengajionline",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,7 +8,9 @@
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
     "lint": "biome check",
-    "format:tailwind": "prettier --write \"src/**/*.{ts,tsx}\" --plugin prettier-plugin-tailwindcss"
+    "format:tailwind": "prettier --write \"src/**/*.{ts,tsx}\" --plugin prettier-plugin-tailwindcss",
+    "format:biome": "biome check --write",
+    "format": "npm run format:biome && npm run format:tailwind"
   },
   "dependencies": {
     "@react-router/node": "7.12.0",
