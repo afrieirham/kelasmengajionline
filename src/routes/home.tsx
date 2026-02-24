@@ -1,7 +1,7 @@
 import { desc, eq } from "drizzle-orm";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, MoveRight } from "lucide-react";
 import { useState } from "react";
-import { useLoaderData } from "react-router";
+import { Link, useLoaderData } from "react-router";
 import { db } from "@/.server/db";
 import { profiles } from "@/.server/db/schema";
 import { Button } from "@/components/core/button";
@@ -44,6 +44,7 @@ export function meta({}: Route.MetaArgs) {
 
 export default function Home() {
   const { classes } = useLoaderData<typeof loader>();
+  const { data: session } = authClient.useSession();
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const handleSignIn = async () => {
     setIsLoggingIn(true);
@@ -57,10 +58,22 @@ export default function Home() {
     <div className="flex flex-col px-4">
       <nav className="mx-auto flex w-full max-w-7xl items-center justify-between py-4">
         <Logo />
-        <Button onClick={handleSignIn} size="lg">
-          {isLoggingIn && <Spinner />}
-          Tambah Kelas
-        </Button>
+        {session ? (
+          <Button
+            variant="outline"
+            render={
+              <Link to="/dashboard">
+                Pergi ke Dashboard
+                <MoveRight className="w-4 h-4" />
+              </Link>
+            }
+          />
+        ) : (
+          <Button onClick={handleSignIn} size="lg">
+            {isLoggingIn && <Spinner />}
+            Tambah Kelas
+          </Button>
+        )}
       </nav>
       <div className="mt-8 flex flex-col gap-4 text-center">
         <h1 className="text-3xl font-bold sm:text-4xl">
