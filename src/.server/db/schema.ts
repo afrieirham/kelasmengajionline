@@ -20,13 +20,12 @@ export const profileTypeEnum = pgEnum("profile_type", [
   "organization",
 ]);
 export const tagGroupEnum = pgEnum("tag_group", [
-  "teacher_gender",
-  "target_audience",
-  "class_format",
-  "class_fee",
-  "educational_value",
-  "class_policy",
-  "perks",
+  "jantina_guru",
+  "kategori_pelajar",
+  "format_kelas",
+  "yuran_kelas",
+  "polisi_kelas",
+  "kelebihan_tambahan",
 ]);
 
 export const claimStatusEnum = pgEnum("claim_status", [

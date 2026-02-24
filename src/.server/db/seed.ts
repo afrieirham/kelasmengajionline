@@ -8,7 +8,7 @@ const tagsData = [
   {
     name: "Ustaz (Lelaki)",
     slug: "ustaz",
-    group: "teacher_gender" as const,
+    group: "jantina_guru" as const,
     order: 1,
     metaTitle: "Senarai Ustaz (Guru Lelaki) | Kelas Mengaji Online",
     pageTitle: "Guru Mengaji Lelaki (Ustaz)",
@@ -16,7 +16,7 @@ const tagsData = [
   {
     name: "Ustazah (Perempuan)",
     slug: "ustazah",
-    group: "teacher_gender" as const,
+    group: "jantina_guru" as const,
     order: 2,
     metaTitle: "Senarai Ustazah (Guru Perempuan) | Kelas Mengaji Online",
     pageTitle: "Guru Mengaji Perempuan (Ustazah)",
@@ -26,7 +26,7 @@ const tagsData = [
   {
     name: "Kanak-kanak",
     slug: "kanak-kanak",
-    group: "target_audience" as const,
+    group: "kategori_pelajar" as const,
     order: 1,
     metaTitle: "Kelas Mengaji Online Kanak-kanak | Belajar Iqra & Al-Quran",
     pageTitle: "Kelas Mengaji untuk Kanak-kanak",
@@ -34,7 +34,7 @@ const tagsData = [
   {
     name: "Remaja Lelaki",
     slug: "remaja-lelaki",
-    group: "target_audience" as const,
+    group: "kategori_pelajar" as const,
     order: 2,
     metaTitle: "Kelas Mengaji Remaja Lelaki Online",
     pageTitle: "Kelas Mengaji untuk Remaja Lelaki",
@@ -42,7 +42,7 @@ const tagsData = [
   {
     name: "Remaja Perempuan",
     slug: "remaja-perempuan",
-    group: "target_audience" as const,
+    group: "kategori_pelajar" as const,
     order: 3,
     metaTitle: "Kelas Mengaji Remaja Perempuan Online",
     pageTitle: "Kelas Mengaji untuk Remaja Perempuan",
@@ -50,7 +50,7 @@ const tagsData = [
   {
     name: "Lelaki Dewasa",
     slug: "lelaki-dewasa",
-    group: "target_audience" as const,
+    group: "kategori_pelajar" as const,
     order: 4,
     metaTitle: "Kelas Mengaji Lelaki Dewasa | Tajwid & Talaqqi",
     pageTitle: "Kelas Mengaji untuk Lelaki Dewasa",
@@ -58,7 +58,7 @@ const tagsData = [
   {
     name: "Perempuan Dewasa",
     slug: "perempuan-dewasa",
-    group: "target_audience" as const,
+    group: "kategori_pelajar" as const,
     order: 5,
     metaTitle: "Kelas Mengaji Perempuan Dewasa (Muslimah) Online",
     pageTitle: "Kelas Mengaji untuk Muslimah/Wanita",
@@ -66,7 +66,7 @@ const tagsData = [
   {
     name: "Warga Emas",
     slug: "warga-emas",
-    group: "target_audience" as const,
+    group: "kategori_pelajar" as const,
     order: 6,
     metaTitle: "Kelas Mengaji Warga Emas Online",
     pageTitle: "Kelas Mengaji untuk Warga Emas",
@@ -76,7 +76,7 @@ const tagsData = [
   {
     name: "Kelas Online",
     slug: "online",
-    group: "class_format" as const,
+    group: "format_kelas" as const,
     order: 1,
     metaTitle: "Senarai Kelas Mengaji Online (Zoom/Google Meet)",
     pageTitle: "Kelas Mengaji Secara Online",
@@ -84,7 +84,7 @@ const tagsData = [
   {
     name: "Hybrid (Online + Fizikal)",
     slug: "hybrid",
-    group: "class_format" as const,
+    group: "format_kelas" as const,
     order: 2,
     metaTitle: "Kelas Mengaji Hybrid (Online + Fizikal)",
     pageTitle: "Kelas Mengaji Secara Hybrid",
@@ -92,7 +92,7 @@ const tagsData = [
   {
     name: "Fizikal (Rumah Pelajar)",
     slug: "fizikal-rumah",
-    group: "class_format" as const,
+    group: "format_kelas" as const,
     order: 3,
     metaTitle: "Guru Mengaji ke Rumah (Home Tutoring)",
     pageTitle: "Kelas Mengaji Fizikal ke Rumah",
@@ -100,7 +100,7 @@ const tagsData = [
   {
     name: "Fizikal (Pusat Mengaji)",
     slug: "fizikal-pusat",
-    group: "class_format" as const,
+    group: "format_kelas" as const,
     order: 4,
     metaTitle: "Kelas Mengaji di Pusat / Madrasah",
     pageTitle: "Kelas Mengaji di Pusat Pembelajaran",
@@ -110,7 +110,7 @@ const tagsData = [
   {
     name: "Kelas Percuma",
     slug: "percuma",
-    group: "class_fee" as const,
+    group: "yuran_kelas" as const,
     order: 1,
     metaTitle: "Kelas Mengaji Percuma Online",
     pageTitle: "Senarai Kelas Mengaji Percuma",
@@ -118,7 +118,7 @@ const tagsData = [
   {
     name: "Seikhlas Hati",
     slug: "seikhlas-hati",
-    group: "class_fee" as const,
+    group: "yuran_kelas" as const,
     order: 2,
     metaTitle: "Kelas Mengaji Bayaran Seikhlas Hati",
     pageTitle: "Kelas Mengaji (Sumbangan Seikhlas Hati)",
@@ -126,7 +126,7 @@ const tagsData = [
   {
     name: "Yuran Tetap Bulanan",
     slug: "yuran-tetap",
-    group: "class_fee" as const,
+    group: "yuran_kelas" as const,
     order: 3,
     metaTitle: "Kelas Mengaji Yuran Tetap Bulanan",
     pageTitle: "Kelas Mengaji Berbayar (Yuran Tetap)",
@@ -134,7 +134,7 @@ const tagsData = [
   {
     name: "Tiada Yuran Pendaftaran",
     slug: "tiada-yuran-pendaftaran",
-    group: "class_fee" as const,
+    group: "yuran_kelas" as const,
     order: 4,
     metaTitle: "Kelas Mengaji Tanpa Yuran Pendaftaran",
     pageTitle: "Kelas Mengaji (Tanpa Yuran Pendaftaran)",
@@ -144,7 +144,7 @@ const tagsData = [
   {
     name: "Sijil Disediakan",
     slug: "sijil-disediakan",
-    group: "educational_value" as const,
+    group: "kelebihan_tambahan" as const,
     order: 1,
     metaTitle: "Kelas Mengaji dengan Sijil Tamat Pengajian",
     pageTitle: "Kelas Mengaji (Sijil Disediakan)",
@@ -152,7 +152,7 @@ const tagsData = [
   {
     name: "Laporan Prestasi",
     slug: "laporan-prestasi",
-    group: "educational_value" as const,
+    group: "kelebihan_tambahan" as const,
     order: 2,
     metaTitle: "Kelas Mengaji dengan Laporan Prestasi Pelajar",
     pageTitle: "Kelas Mengaji dengan Laporan Prestasi",
@@ -160,7 +160,7 @@ const tagsData = [
   {
     name: "Modul Hafazan",
     slug: "hafazan",
-    group: "educational_value" as const,
+    group: "kelebihan_tambahan" as const,
     order: 3,
     metaTitle: "Kelas Hafazan Al-Quran Online",
     pageTitle: "Program Hafazan & Tahfiz Online",
@@ -170,7 +170,7 @@ const tagsData = [
   {
     name: "Jadual Fleksibel",
     slug: "jadual-fleksibel",
-    group: "class_policy" as const,
+    group: "polisi_kelas" as const,
     order: 1,
     metaTitle: "Kelas Mengaji Jadual Masa Fleksibel",
     pageTitle: "Kelas dengan Jadual Masa Fleksibel",
@@ -178,7 +178,7 @@ const tagsData = [
   {
     name: "Kelas Boleh Ganti ",
     slug: "kelas-boleh-ganti",
-    group: "class_policy" as const,
+    group: "polisi_kelas" as const,
     order: 2,
     metaTitle: "Kelas Mengaji: Polisi Ganti Kelas (Replacement)",
     pageTitle: "Kelas Mengaji (Boleh Ganti Kelas)",
@@ -188,7 +188,7 @@ const tagsData = [
   {
     name: "Kelas Percubaan Percuma",
     slug: "kelas-percubaan-percuma",
-    group: "perks" as const,
+    group: "kelebihan_tambahan" as const,
     order: 1,
     metaTitle: "Kelas Mengaji Online Free Trial (Percubaan Percuma)",
     pageTitle: "Kelas Mengaji dengan Percubaan Percuma",
@@ -196,7 +196,7 @@ const tagsData = [
   {
     name: "Boleh Pilih Guru",
     slug: "boleh-pilih-guru",
-    group: "perks" as const,
+    group: "kelebihan_tambahan" as const,
     order: 2,
     metaTitle: "Kelas Mengaji: Pilih Ustaz atau Ustazah Sendiri",
     pageTitle: "Kelas Mengaji (Boleh Pilih Guru)",
