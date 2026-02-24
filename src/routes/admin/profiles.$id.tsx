@@ -8,7 +8,7 @@ import {
   useLoaderData,
 } from "react-router";
 import { db } from "@/.server/db";
-import { profiles, users } from "@/.server/db/schema";
+import { profiles, profilesToTags, tags, users } from "@/.server/db/schema";
 import { Button } from "@/components/core/button";
 import {
   Card,
@@ -41,18 +41,43 @@ export async function loader({
 
   const profileId = params.id;
 
+  const allTags = await db
+    .select()
+    .from(tags)
+    .orderBy(tags.group, tags.order, tags.name);
+
+  const tagsByGroup = allTags.reduce(
+    (acc, tag) => {
+      if (!acc[tag.group]) {
+        acc[tag.group] = [];
+      }
+      acc[tag.group].push(tag);
+      return acc;
+    },
+    {} as Record<string, typeof allTags>,
+  );
+
   if (profileId === "new") {
-    return { profile: null, users: [] };
+    return { profile: null, users: [], tagsByGroup, profileTagIds: [] };
   }
 
-  const [profile, userList] = await Promise.all([
+  const [profile, userList, profileTags] = await Promise.all([
     db.select().from(profiles).where(eq(profiles.id, profileId)).limit(1),
     db
       .select({ id: users.id, name: users.name, email: users.email })
       .from(users),
+    db
+      .select({ tagId: profilesToTags.tagId })
+      .from(profilesToTags)
+      .where(eq(profilesToTags.profileId, profileId)),
   ]);
 
-  return { profile: profile[0] || null, users: userList };
+  return {
+    profile: profile[0] || null,
+    users: userList,
+    tagsByGroup,
+    profileTagIds: profileTags.map((t) => t.tagId),
+  };
 }
 
 export async function action({
@@ -80,6 +105,7 @@ export async function action({
     const isClaimed = formData.get("isClaimed") === "on";
     const isVerified = formData.get("isVerified") === "on";
     const isBoosted = formData.get("isBoosted") === "on";
+    const tagIds = formData.getAll("tagIds") as string[];
 
     const profileId = params.id;
 
@@ -101,6 +127,16 @@ export async function action({
         isVerified,
         isBoosted,
       });
+
+      if (tagIds.length > 0) {
+        await db.insert(profilesToTags).values(
+          tagIds.map((tagId) => ({
+            profileId: id,
+            tagId,
+          })),
+        );
+      }
+
       return redirect("/admin/profiles?success=true");
     } else {
       await db
@@ -121,6 +157,19 @@ export async function action({
           isBoosted,
         })
         .where(eq(profiles.id, profileId));
+
+      await db
+        .delete(profilesToTags)
+        .where(eq(profilesToTags.profileId, profileId));
+
+      if (tagIds.length > 0) {
+        await db.insert(profilesToTags).values(
+          tagIds.map((tagId) => ({
+            profileId,
+            tagId,
+          })),
+        );
+      }
     }
 
     return redirect("/admin/profiles?success=true");
@@ -130,7 +179,8 @@ export async function action({
 }
 
 export default function AdminProfileEdit() {
-  const { profile, users } = useLoaderData<typeof loader>();
+  const { profile, users, tagsByGroup, profileTagIds } =
+    useLoaderData<typeof loader>();
   const _actionData = useActionData<typeof action>();
   const isNew = !profile;
 
@@ -321,6 +371,40 @@ export default function AdminProfileEdit() {
               />
               <Label htmlFor="isBoosted">Boosted</Label>
             </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Tags</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            {Object.entries(tagsByGroup).map(([group, tags]) => (
+              <div key={group}>
+                <Label className="mb-2 block text-sm font-medium capitalize">
+                  {group.replace(/_/g, " ")}
+                </Label>
+                <div className="flex flex-wrap gap-2">
+                  {tags.map((tag) => (
+                    <label
+                      key={tag.id}
+                      className="flex cursor-pointer items-center gap-2"
+                    >
+                      <input
+                        type="checkbox"
+                        name="tagIds"
+                        value={tag.id}
+                        defaultChecked={(profileTagIds as string[]).includes(
+                          tag.id,
+                        )}
+                        className="rounded border-gray-300"
+                      />
+                      <span className="text-sm">{tag.name}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+            ))}
           </CardContent>
         </Card>
 
