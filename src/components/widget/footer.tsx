@@ -98,7 +98,7 @@ export default function Footer() {
         Footer
       </h2>
       <div className="mx-auto max-w-7xl px-4 py-8">
-        <div className="xl:grid xl:grid-cols-3 xl:gap-8">
+        <div className="flex flex-col justify-between gap-16 lg:flex-row">
           <div className="space-y-8">
             <Logo />
             <p className="text-sm leading-6 text-gray-600">
@@ -118,67 +118,65 @@ export default function Footer() {
               ))}
             </div>
           </div>
-          <div className="mt-16 grid grid-cols-2 gap-8 xl:col-span-2 xl:mt-0">
-            <div className="md:grid md:grid-cols-2 md:gap-8">
-              <div>
-                <h3 className="text-sm leading-6 font-semibold text-gray-900">
-                  Rujukan
-                </h3>
-                <ul className="mt-6 space-y-4">
-                  {navigation.resources.map((item) => (
-                    <li key={item.name}>
-                      <a
-                        href={item.href}
-                        target="_blank"
-                        className="text-sm leading-6 text-gray-600 hover:text-gray-900"
-                      >
-                        {item.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="mt-10 md:mt-0">
-                <h3 className="text-sm leading-6 font-semibold text-gray-900">
-                  Lawati Juga
-                </h3>
-                <ul className="mt-6 space-y-4">
-                  {navigation.partners.map((item) => (
-                    <li key={item.name}>
-                      <a
-                        href={`${item.href}?ref=kelasmengaji.online`}
-                        target="_blank"
-                        className="text-sm leading-6 text-gray-600 hover:text-gray-900"
-                      >
-                        {item.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+
+          <div className="grid w-full grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            <div className="w-full">
+              <h3 className="text-sm leading-6 font-semibold text-gray-900">
+                Rujukan
+              </h3>
+              <ul className="mt-6 space-y-4">
+                {navigation.resources.map((item) => (
+                  <li key={item.name}>
+                    <a
+                      href={item.href}
+                      target="_blank"
+                      className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+                    >
+                      {item.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
-            <div className="md:grid md:grid-cols-2 md:gap-8">
-              <div>
-                <h3 className="text-sm leading-6 font-semibold text-gray-900">
-                  Projek Lain
-                </h3>
-                <ul className="mt-6 space-y-4">
-                  {navigation.projects.map((item) => (
-                    <li key={item.name}>
-                      <a
-                        href={`${item.href}?ref=kelasmengaji.online`}
-                        target="_blank"
-                        className="text-sm leading-6 text-gray-600 hover:text-gray-900"
-                      >
-                        {item.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <div className="w-full">
+              <h3 className="text-sm leading-6 font-semibold text-gray-900">
+                Projek Lain
+              </h3>
+              <ul className="mt-6 space-y-4">
+                {navigation.projects.map((item) => (
+                  <li key={item.name}>
+                    <a
+                      href={`${item.href}?ref=kelasmengaji.online`}
+                      target="_blank"
+                      className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+                    >
+                      {item.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="w-full">
+              <h3 className="text-sm leading-6 font-semibold text-gray-900">
+                Lawati Juga
+              </h3>
+              <ul className="mt-6 space-y-4">
+                {navigation.partners.map((item) => (
+                  <li key={item.name}>
+                    <a
+                      href={`${item.href}?ref=kelasmengaji.online`}
+                      target="_blank"
+                      className="text-sm leading-6 text-gray-600 hover:text-gray-900"
+                    >
+                      {item.name}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
+
         <div className="mt-16 flex items-center justify-between border-t border-gray-900/10 pt-8 sm:mt-20">
           <p className="text-xs leading-5 text-gray-500">
             &copy; {new Date().getFullYear()} Hak Cipta Terpelihara

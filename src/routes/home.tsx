@@ -70,15 +70,15 @@ export default function Home() {
           <a
             href="https://www.muftiwp.gov.my/ms/artikel/irsyad-al-hadith/6035-irsyad-al-hadith-siri-ke-564-pahala-bagi-mereka-yang-tidak-lancar-membaca-al-quran#:~:text=Sebaik%2Dbaik%20kalian%20adalah%20mereka%20yang%20belajar%20al%2DQuran%20dan%20mengajarkannya"
             target="_blank"
-            className="text-xs hover:underline flex items-center gap-1"
+            className="flex items-center gap-1 text-xs hover:underline"
             rel="noopener"
           >
             <span>Hadis Riwayat al-Bukhari</span>
-            <ArrowUpRight className="w-3 h-3" />
+            <ArrowUpRight className="h-3 w-3" />
           </a>
         </div>
       </div>
-      <main className="mx-auto mt-8 w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-2">
+      <main className="mx-auto mt-8 grid w-full max-w-5xl grid-cols-1 gap-2 md:grid-cols-3">
         {classes.map((kelas) => (
           <a
             key={kelas.websiteUrl}
