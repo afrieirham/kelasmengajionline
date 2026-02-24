@@ -1,7 +1,23 @@
+import { useLoaderData } from "react-router";
+import { db } from "@/.server/db";
+import { profiles } from "@/.server/db/schema";
 import { Button } from "@/components/core/button";
 import Footer from "@/components/widget/footer";
 import Logo from "@/components/widget/logo";
 import type { Route } from "./+types/home";
+
+export async function loader() {
+  const classes = await db
+    .select({
+      name: profiles.name,
+      headline: profiles.headline,
+      imageUrl: profiles.imageUrl,
+      websiteUrl: profiles.websiteUrl,
+    })
+    .from(profiles);
+
+  return { classes };
+}
 
 export function meta({}: Route.MetaArgs) {
   return [
@@ -16,6 +32,8 @@ export function meta({}: Route.MetaArgs) {
 }
 
 export default function Home() {
+  const { classes } = useLoaderData<typeof loader>();
+
   return (
     <div className="flex flex-col px-4">
       <nav className="mx-auto flex w-full max-w-7xl items-center justify-between py-4">
@@ -42,25 +60,25 @@ export default function Home() {
           </a>
         </div>
       </div>
-      <main className="mx-auto mt-8 flex w-full max-w-5xl flex-col gap-2">
-        {/* {classes.map((kelas) => (
-            <a
-              key={kelas.websiteUrl}
-              target="_blank"
-              href={`${kelas.websiteUrl}?ref=kelasmengaji.online`}
-              className="flex cursor-pointer items-center space-x-4 rounded-lg border bg-white p-4 hover:bg-gray-50"
-            >
-              <img
-                src={kelas.logoUrl}
-                className="h-12 w-12 rounded border object-contain p-1"
-                alt={`Logo ${kelas.title}`}
-              />
-              <div className="flex flex-col">
-                <p className="font-semibold">{kelas.title}</p>
-                <p className="text-sm text-gray-500">{kelas.description}</p>
-              </div>
-            </a>
-          ))} */}
+      <main className="mx-auto mt-8 w-full max-w-5xl grid grid-cols-1 md:grid-cols-3 gap-2">
+        {classes.map((kelas) => (
+          <a
+            key={kelas.websiteUrl}
+            target="_blank"
+            href={`${kelas.websiteUrl}?ref=kelasmengaji.online`}
+            className="flex cursor-pointer items-center space-x-4 rounded-lg border bg-white p-4 hover:bg-gray-50"
+          >
+            <img
+              src={kelas.imageUrl || ""}
+              className="h-12 w-12 rounded border object-contain p-1"
+              alt={`Logo ${kelas.name}`}
+            />
+            <div className="flex flex-col">
+              <p className="font-semibold">{kelas.name}</p>
+              <p className="text-sm text-gray-500">{kelas.headline}</p>
+            </div>
+          </a>
+        ))}
       </main>
       <Footer />
     </div>
