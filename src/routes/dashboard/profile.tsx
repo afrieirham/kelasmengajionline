@@ -1,4 +1,5 @@
 import { eq } from "drizzle-orm";
+import { Send } from "lucide-react";
 import { useRef, useState } from "react";
 import {
   Form,
@@ -10,6 +11,7 @@ import {
 } from "react-router";
 import { db } from "@/.server/db";
 import { profiles, profilesToTags, tags } from "@/.server/db/schema";
+import { Badge } from "@/components/core/badge";
 import { Button } from "@/components/core/button";
 import {
   Card,
@@ -17,6 +19,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/core/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/core/dialog";
 import { Input } from "@/components/core/input";
 import { Label } from "@/components/core/label";
 import {
@@ -29,6 +40,36 @@ import {
 import { Textarea } from "@/components/core/textarea";
 import { slugify } from "@/lib/slugify";
 import { requireUser } from "@/lib/user";
+
+function getStatusLabel(status: string): string {
+  switch (status) {
+    case "draft":
+      return "Draf";
+    case "pending":
+      return "Menunggu semakan";
+    case "approved":
+      return "Diterima";
+    case "rejected":
+      return "Ditolak";
+    default:
+      return status;
+  }
+}
+
+function getStatusBadgeVariant(
+  status: string,
+): "default" | "secondary" | "outline" | "destructive" {
+  switch (status) {
+    case "approved":
+      return "default";
+    case "pending":
+      return "outline";
+    case "rejected":
+      return "destructive";
+    default:
+      return "secondary";
+  }
+}
 
 export async function loader({ request }: { request: Request }) {
   const user = await requireUser(request);
@@ -87,6 +128,21 @@ export async function action({ request }: { request: Request }) {
 
   if (!profile) {
     throw redirect("/dashboard/new");
+  }
+
+  const intent = formData.get("intent") as string | null;
+
+  if (intent === "submitForReview") {
+    if (profile.moderationStatus !== "draft") {
+      return { error: "Hanya profil dalam draf boleh dihantar untuk semakan." };
+    }
+
+    await db
+      .update(profiles)
+      .set({ moderationStatus: "pending" })
+      .where(eq(profiles.id, profile.id));
+
+    return { success: true, submitted: true };
   }
 
   const name = formData.get("name") as string;
@@ -164,7 +220,43 @@ export default function DashboardProfile() {
   return (
     <div>
       <div className="mb-6 flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Profil Saya</h1>
+        <div className="flex items-center gap-3">
+          <h1 className="text-2xl font-bold">Profil Saya</h1>
+          <Badge variant={getStatusBadgeVariant(profile.moderationStatus)}>
+            {getStatusLabel(profile.moderationStatus)}
+          </Badge>
+        </div>
+
+        {profile.moderationStatus === "draft" && (
+          <Dialog>
+            <DialogTrigger>
+              <Button>
+                <Send className="mr-2 h-4 w-4" />
+                Hantar untuk semakan
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Hantar untuk semakan?</DialogTitle>
+                <DialogDescription>
+                  Profil anda akan dihantar untuk semakan oleh admin. Anda tidak
+                  boleh mengubah profil selepas ia dihantar sehingga admin
+                  meluluskan atau menolak.
+                </DialogDescription>
+              </DialogHeader>
+              <DialogFooter>
+                <Form method="post">
+                  <input type="hidden" name="intent" value="submitForReview" />
+                  <Button type="submit" disabled={isSubmitting}>
+                    {isSubmitting
+                      ? "Menghantar..."
+                      : "Ya, hantar untuk semakan"}
+                  </Button>
+                </Form>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+        )}
       </div>
 
       {actionData?.error && (
@@ -173,9 +265,15 @@ export default function DashboardProfile() {
         </div>
       )}
 
-      {actionData?.success && (
+      {actionData?.success && !actionData?.submitted && (
         <div className="mb-4 rounded bg-green-50 p-4 text-green-600">
           Profil berjaya disimpan!
+        </div>
+      )}
+
+      {actionData?.success && actionData?.submitted && (
+        <div className="mb-4 rounded bg-green-50 p-4 text-green-600">
+          Profil berjaya dihantar untuk semakan!
         </div>
       )}
 
