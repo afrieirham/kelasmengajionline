@@ -1,8 +1,8 @@
 import { eq } from "drizzle-orm";
-import { Form, useLoaderData } from "react-router";
+import { useLoaderData, useSubmit } from "react-router";
 import { db } from "@/.server/db";
 import { claimRequests, profiles, users } from "@/.server/db/schema";
-import { Button } from "@/components/core/button";
+import { ActionsDropdown } from "@/components/admin/actions-dropdown";
 import {
   Table,
   TableBody,
@@ -83,10 +83,25 @@ const _statusColors: Record<string, string> = {
 
 export default function AdminClaims() {
   const { claims } = useLoaderData<typeof loader>();
+  const submit = useSubmit();
 
   const pending = claims.filter((c) => c.status === "pending");
   const approved = claims.filter((c) => c.status === "approved");
   const rejected = claims.filter((c) => c.status === "rejected");
+
+  const handleApprove = (id: string) => {
+    const formData = new FormData();
+    formData.append("intent", "approve");
+    formData.append("id", id);
+    submit(formData, { method: "post" });
+  };
+
+  const handleReject = (id: string) => {
+    const formData = new FormData();
+    formData.append("intent", "reject");
+    formData.append("id", id);
+    submit(formData, { method: "post" });
+  };
 
   return (
     <div>
@@ -138,30 +153,21 @@ export default function AdminClaims() {
                           : "-"}
                       </TableCell>
                       <TableCell>
-                        <div className="flex gap-2">
-                          <Form method="post">
-                            <input
-                              type="hidden"
-                              name="intent"
-                              value="approve"
-                            />
-                            <input type="hidden" name="id" value={claim.id} />
-                            <Button type="submit" variant="outline" size="sm">
-                              Approve
-                            </Button>
-                          </Form>
-                          <Form method="post">
-                            <input type="hidden" name="intent" value="reject" />
-                            <input type="hidden" name="id" value={claim.id} />
-                            <Button
-                              type="submit"
-                              variant="destructive"
-                              size="sm"
-                            >
-                              Reject
-                            </Button>
-                          </Form>
-                        </div>
+                        <ActionsDropdown
+                          actions={[
+                            {
+                              label: "Approve",
+                              key: `approve-${claim.id}`,
+                              onClick: () => handleApprove(claim.id),
+                            },
+                            {
+                              label: "Reject",
+                              variant: "destructive",
+                              key: `reject-${claim.id}`,
+                              onClick: () => handleReject(claim.id),
+                            },
+                          ]}
+                        />
                       </TableCell>
                     </TableRow>
                   ))

@@ -1,9 +1,9 @@
 import { eq } from "drizzle-orm";
-import { Form, Link, useLoaderData } from "react-router";
+import { useLoaderData, useSubmit } from "react-router";
 import { db } from "@/.server/db";
 import { profiles } from "@/.server/db/schema";
+import { ActionsDropdown } from "@/components/admin/actions-dropdown";
 import { Badge } from "@/components/core/badge";
-import { Button } from "@/components/core/button";
 import {
   Table,
   TableBody,
@@ -51,6 +51,33 @@ export async function action({ request }: { request: Request }) {
 
 export default function AdminBoosting() {
   const { boosted, notBoosted } = useLoaderData<typeof loader>();
+  const submit = useSubmit();
+
+  const handleToggle = (id: string) => {
+    const formData = new FormData();
+    formData.append("intent", "toggle");
+    formData.append("id", id);
+    submit(formData, { method: "post" });
+  };
+
+  const renderActions = (profile: { id: string; isBoosted: boolean }) => (
+    <ActionsDropdown
+      actions={[
+        {
+          label: "Edit",
+          key: `edit-${profile.id}`,
+          onClick: () => {
+            window.location.href = `/admin/profiles/${profile.id}`;
+          },
+        },
+        {
+          label: profile.isBoosted ? "Remove Boost" : "Boost",
+          key: `toggle-${profile.id}`,
+          onClick: () => handleToggle(profile.id),
+        },
+      ]}
+    />
+  );
 
   return (
     <div>
@@ -98,22 +125,7 @@ export default function AdminBoosting() {
                       <TableCell>
                         <Badge variant="outline">{profile.type}</Badge>
                       </TableCell>
-                      <TableCell>
-                        <div className="flex gap-2">
-                          <Link to={`/admin/profiles/${profile.id}`}>
-                            <Button variant="outline" size="sm">
-                              Edit
-                            </Button>
-                          </Link>
-                          <Form method="post">
-                            <input type="hidden" name="intent" value="toggle" />
-                            <input type="hidden" name="id" value={profile.id} />
-                            <Button type="submit" variant="outline" size="sm">
-                              Remove Boost
-                            </Button>
-                          </Form>
-                        </div>
-                      </TableCell>
+                      <TableCell>{renderActions(profile)}</TableCell>
                     </TableRow>
                   ))
                 )}
@@ -158,22 +170,7 @@ export default function AdminBoosting() {
                       <TableCell>
                         <Badge variant="outline">{profile.type}</Badge>
                       </TableCell>
-                      <TableCell>
-                        <div className="flex gap-2">
-                          <Link to={`/admin/profiles/${profile.id}`}>
-                            <Button variant="outline" size="sm">
-                              Edit
-                            </Button>
-                          </Link>
-                          <Form method="post">
-                            <input type="hidden" name="intent" value="toggle" />
-                            <input type="hidden" name="id" value={profile.id} />
-                            <Button type="submit" variant="outline" size="sm">
-                              Boost
-                            </Button>
-                          </Form>
-                        </div>
-                      </TableCell>
+                      <TableCell>{renderActions(profile)}</TableCell>
                     </TableRow>
                   ))
                 )}

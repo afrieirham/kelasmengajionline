@@ -1,7 +1,9 @@
 import { eq } from "drizzle-orm";
-import { Form, useLoaderData } from "react-router";
+import { useState } from "react";
+import { Form, useLoaderData, useSubmit } from "react-router";
 import { db } from "@/.server/db";
 import { type tagGroupEnum, tags } from "@/.server/db/schema";
+import { ActionsDropdown } from "@/components/admin/actions-dropdown";
 import { Badge } from "@/components/core/badge";
 import { Button } from "@/components/core/button";
 import {
@@ -101,6 +103,16 @@ const groupLabels: Record<string, string> = {
 
 export default function AdminTags() {
   const { tags: tagList } = useLoaderData<typeof loader>();
+  const submit = useSubmit();
+  const [editingTagId, setEditingTagId] = useState<string | null>(null);
+
+  const handleDelete = (id: string) => {
+    if (!confirm("Are you sure?")) return;
+    const formData = new FormData();
+    formData.append("intent", "delete");
+    formData.append("id", id);
+    submit(formData, { method: "post" });
+  };
 
   return (
     <div>
@@ -144,119 +156,116 @@ export default function AdminTags() {
                     {tag.metaTitle || "-"}
                   </TableCell>
                   <TableCell>
-                    <div className="flex gap-2">
-                      <Dialog>
-                        <DialogTrigger>
-                          <Button variant="outline" size="sm">
-                            Edit
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent className="max-w-2xl">
-                          <DialogHeader>
-                            <DialogTitle>Edit Tag</DialogTitle>
-                          </DialogHeader>
-                          <Form method="post" className="space-y-4">
-                            <input type="hidden" name="intent" value="save" />
-                            <input type="hidden" name="id" value={tag.id} />
-                            <div className="grid grid-cols-2 gap-4">
-                              <div className="space-y-2">
-                                <Label htmlFor={`name-${tag.id}`}>Name</Label>
-                                <Input
-                                  name="name"
-                                  id={`name-${tag.id}`}
-                                  defaultValue={tag.name}
-                                  required
-                                />
-                              </div>
-                              <div className="space-y-2">
-                                <Label htmlFor={`slug-${tag.id}`}>Slug</Label>
-                                <Input
-                                  name="slug"
-                                  id={`slug-${tag.id}`}
-                                  defaultValue={tag.slug}
-                                  required
-                                />
-                              </div>
-                            </div>
-                            <div className="grid grid-cols-2 gap-4">
-                              <div className="space-y-2">
-                                <Label htmlFor={`group-${tag.id}`}>Group</Label>
-                                <Input
-                                  name="group"
-                                  id={`group-${tag.id}`}
-                                  defaultValue={tag.group}
-                                  required
-                                />
-                              </div>
-                              <div className="space-y-2">
-                                <Label htmlFor={`order-${tag.id}`}>Order</Label>
-                                <Input
-                                  name="order"
-                                  id={`order-${tag.id}`}
-                                  type="number"
-                                  defaultValue={tag.order}
-                                />
-                              </div>
-                            </div>
+                    <Dialog
+                      open={editingTagId === tag.id}
+                      onOpenChange={(open) => !open && setEditingTagId(null)}
+                    >
+                      <ActionsDropdown
+                        actions={[
+                          {
+                            label: "Edit",
+                            key: `edit-${tag.id}`,
+                            onClick: () => setEditingTagId(tag.id),
+                          },
+                          {
+                            label: "Delete",
+                            variant: "destructive",
+                            key: `delete-${tag.id}`,
+                            onClick: () => handleDelete(tag.id),
+                          },
+                        ]}
+                      />
+                      <DialogContent className="max-w-2xl">
+                        <DialogHeader>
+                          <DialogTitle>Edit Tag</DialogTitle>
+                        </DialogHeader>
+                        <Form method="post" className="space-y-4">
+                          <input type="hidden" name="intent" value="save" />
+                          <input type="hidden" name="id" value={tag.id} />
+                          <div className="grid grid-cols-2 gap-4">
                             <div className="space-y-2">
-                              <Label htmlFor={`metaTitle-${tag.id}`}>
-                                Meta Title
-                              </Label>
+                              <Label htmlFor={`name-${tag.id}`}>Name</Label>
                               <Input
-                                name="metaTitle"
-                                id={`metaTitle-${tag.id}`}
-                                defaultValue={tag.metaTitle || ""}
+                                name="name"
+                                id={`name-${tag.id}`}
+                                defaultValue={tag.name}
+                                required
                               />
                             </div>
                             <div className="space-y-2">
-                              <Label htmlFor={`metaDescription-${tag.id}`}>
-                                Meta Description
-                              </Label>
-                              <Textarea
-                                name="metaDescription"
-                                id={`metaDescription-${tag.id}`}
-                                defaultValue={tag.metaDescription || ""}
-                              />
-                            </div>
-                            <div className="space-y-2">
-                              <Label htmlFor={`pageTitle-${tag.id}`}>
-                                Page Title
-                              </Label>
+                              <Label htmlFor={`slug-${tag.id}`}>Slug</Label>
                               <Input
-                                name="pageTitle"
-                                id={`pageTitle-${tag.id}`}
-                                defaultValue={tag.pageTitle || ""}
+                                name="slug"
+                                id={`slug-${tag.id}`}
+                                defaultValue={tag.slug}
+                                required
+                              />
+                            </div>
+                          </div>
+                          <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                              <Label htmlFor={`group-${tag.id}`}>Group</Label>
+                              <Input
+                                name="group"
+                                id={`group-${tag.id}`}
+                                defaultValue={tag.group}
+                                required
                               />
                             </div>
                             <div className="space-y-2">
-                              <Label htmlFor={`descriptionText-${tag.id}`}>
-                                Description Text
-                              </Label>
-                              <Textarea
-                                name="descriptionText"
-                                id={`descriptionText-${tag.id}`}
-                                defaultValue={tag.descriptionText || ""}
+                              <Label htmlFor={`order-${tag.id}`}>Order</Label>
+                              <Input
+                                name="order"
+                                id={`order-${tag.id}`}
+                                type="number"
+                                defaultValue={tag.order}
                               />
                             </div>
-                            <Button type="submit">Save Tag</Button>
-                          </Form>
-                        </DialogContent>
-                      </Dialog>
-                      <Form
-                        method="post"
-                        onSubmit={(e) => {
-                          if (!confirm("Are you sure?")) {
-                            e.preventDefault();
-                          }
-                        }}
-                      >
-                        <input type="hidden" name="intent" value="delete" />
-                        <input type="hidden" name="id" value={tag.id} />
-                        <Button type="submit" variant="destructive" size="sm">
-                          Delete
-                        </Button>
-                      </Form>
-                    </div>
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor={`metaTitle-${tag.id}`}>
+                              Meta Title
+                            </Label>
+                            <Input
+                              name="metaTitle"
+                              id={`metaTitle-${tag.id}`}
+                              defaultValue={tag.metaTitle || ""}
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor={`metaDescription-${tag.id}`}>
+                              Meta Description
+                            </Label>
+                            <Textarea
+                              name="metaDescription"
+                              id={`metaDescription-${tag.id}`}
+                              defaultValue={tag.metaDescription || ""}
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor={`pageTitle-${tag.id}`}>
+                              Page Title
+                            </Label>
+                            <Input
+                              name="pageTitle"
+                              id={`pageTitle-${tag.id}`}
+                              defaultValue={tag.pageTitle || ""}
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor={`descriptionText-${tag.id}`}>
+                              Description Text
+                            </Label>
+                            <Textarea
+                              name="descriptionText"
+                              id={`descriptionText-${tag.id}`}
+                              defaultValue={tag.descriptionText || ""}
+                            />
+                          </div>
+                          <Button type="submit">Save Tag</Button>
+                        </Form>
+                      </DialogContent>
+                    </Dialog>
                   </TableCell>
                 </TableRow>
               ))

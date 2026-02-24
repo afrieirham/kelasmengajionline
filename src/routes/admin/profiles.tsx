@@ -1,8 +1,15 @@
 import { desc, eq, or } from "drizzle-orm";
 import { useEffect } from "react";
-import { Form, Link, useLoaderData, useSearchParams } from "react-router";
+import {
+  Form,
+  Link,
+  useLoaderData,
+  useSearchParams,
+  useSubmit,
+} from "react-router";
 import { db } from "@/.server/db";
 import { profiles, users } from "@/.server/db/schema";
+import { ActionsDropdown } from "@/components/admin/actions-dropdown";
 import { Badge } from "@/components/core/badge";
 import { Button } from "@/components/core/button";
 import { Input } from "@/components/core/input";
@@ -113,6 +120,7 @@ export default function AdminProfiles() {
     ownerMap,
   } = useLoaderData<typeof loader>();
   const [_searchParams, setSearchParams] = useSearchParams();
+  const submit = useSubmit();
   const success = _searchParams.get("success") === "true";
 
   useEffect(() => {
@@ -131,6 +139,32 @@ export default function AdminProfiles() {
     } else {
       setSearchParams({});
     }
+  };
+
+  const handleSetStatus = (
+    id: string,
+    status: "draft" | "pending" | "approved" | "rejected",
+  ) => {
+    const formData = new FormData();
+    formData.append("intent", "setStatus");
+    formData.append("id", id);
+    formData.append("status", status);
+    submit(formData, { method: "post" });
+  };
+
+  const handleToggleBoosted = (id: string) => {
+    const formData = new FormData();
+    formData.append("intent", "toggleBoosted");
+    formData.append("id", id);
+    submit(formData, { method: "post" });
+  };
+
+  const handleDelete = (id: string) => {
+    if (!confirm("Are you sure?")) return;
+    const formData = new FormData();
+    formData.append("intent", "delete");
+    formData.append("id", id);
+    submit(formData, { method: "post" });
   };
 
   return (
@@ -217,79 +251,41 @@ export default function AdminProfiles() {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <div className="flex gap-2">
-                      <Link to={`/admin/profiles/${profile.id}`}>
-                        <Button variant="outline" size="sm">
-                          Edit
-                        </Button>
-                      </Link>
-                      {profile.moderationStatus === "approved" ? (
-                        <Form method="post">
-                          <input
-                            type="hidden"
-                            name="intent"
-                            value="setStatus"
-                          />
-                          <input type="hidden" name="id" value={profile.id} />
-                          <input type="hidden" name="status" value="pending" />
-                          <Button type="submit" variant="outline" size="sm">
-                            Unapprove
-                          </Button>
-                        </Form>
-                      ) : (
-                        <Form method="post">
-                          <input
-                            type="hidden"
-                            name="intent"
-                            value="setStatus"
-                          />
-                          <input type="hidden" name="id" value={profile.id} />
-                          <input type="hidden" name="status" value="approved" />
-                          <Button
-                            type="submit"
-                            variant="outline"
-                            size="sm"
-                            className="text-green-600"
-                          >
-                            Approve
-                          </Button>
-                        </Form>
-                      )}
-                      <Form method="post">
-                        <input
-                          type="hidden"
-                          name="intent"
-                          value="toggleBoosted"
-                        />
-                        <input type="hidden" name="id" value={profile.id} />
-                        <Button
-                          type="submit"
-                          variant="outline"
-                          size="sm"
-                          className={
-                            profile.isBoosted
-                              ? "text-amber-600"
-                              : "text-gray-400"
-                          }
-                        >
-                          {profile.isBoosted ? "Unboost" : "Boost"}
-                        </Button>
-                      </Form>
-                      <Form
-                        method="post"
-                        onSubmit={(e) => {
-                          if (!confirm("Are you sure?")) {
-                            e.preventDefault();
-                          }
-                        }}
-                      >
-                        <input type="hidden" name="intent" value="delete" />
-                        <input type="hidden" name="id" value={profile.id} />
-                        <Button type="submit" variant="destructive" size="sm">
-                          Delete
-                        </Button>
-                      </Form>
-                    </div>
+                    <ActionsDropdown
+                      actions={[
+                        {
+                          label: "Edit",
+                          key: `edit-${profile.id}`,
+                          onClick: () =>
+                            (window.location.href = `/admin/profiles/${profile.id}`),
+                        },
+                        {
+                          label:
+                            profile.moderationStatus === "approved"
+                              ? "Unapprove"
+                              : "Approve",
+                          key: `status-${profile.id}`,
+                          onClick: () =>
+                            handleSetStatus(
+                              profile.id,
+                              profile.moderationStatus === "approved"
+                                ? "pending"
+                                : "approved",
+                            ),
+                        },
+                        {
+                          label: profile.isBoosted ? "Unboost" : "Boost",
+                          key: `boost-${profile.id}`,
+                          onClick: () => handleToggleBoosted(profile.id),
+                        },
+                        {
+                          label: "Delete",
+                          variant: "destructive",
+                          key: `delete-${profile.id}`,
+                          onClick: () => handleDelete(profile.id),
+                        },
+                      ]}
+                    />
                   </TableCell>
                 </TableRow>
               ))

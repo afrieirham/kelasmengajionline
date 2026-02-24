@@ -1,9 +1,9 @@
 import { eq } from "drizzle-orm";
-import { Form, useLoaderData } from "react-router";
+import { useLoaderData, useSubmit } from "react-router";
 import { db } from "@/.server/db";
 import { users } from "@/.server/db/schema";
+import { ActionsDropdown } from "@/components/admin/actions-dropdown";
 import { Badge } from "@/components/core/badge";
-import { Button } from "@/components/core/button";
 import {
   Table,
   TableBody,
@@ -52,6 +52,23 @@ export async function action({ request }: { request: Request }) {
 
 export default function AdminUsers() {
   const { users: userList } = useLoaderData<typeof loader>();
+  const submit = useSubmit();
+
+  const handleRoleChange = (id: string, role: "admin" | "user") => {
+    const formData = new FormData();
+    formData.append("intent", "changeRole");
+    formData.append("id", id);
+    formData.append("role", role);
+    submit(formData, { method: "post" });
+  };
+
+  const handleDelete = (id: string) => {
+    if (!confirm("Are you sure?")) return;
+    const formData = new FormData();
+    formData.append("intent", "delete");
+    formData.append("id", id);
+    submit(formData, { method: "post" });
+  };
 
   return (
     <div>
@@ -97,36 +114,27 @@ export default function AdminUsers() {
                       : "-"}
                   </TableCell>
                   <TableCell>
-                    <div className="flex gap-2">
-                      <Form method="post">
-                        <input type="hidden" name="intent" value="changeRole" />
-                        <input type="hidden" name="id" value={user.id} />
-                        <input
-                          type="hidden"
-                          name="role"
-                          value={user.role === "admin" ? "user" : "admin"}
-                        />
-                        <Button type="submit" variant="outline" size="sm">
-                          {user.role === "admin"
-                            ? "Remove Admin"
-                            : "Make Admin"}
-                        </Button>
-                      </Form>
-                      <Form
-                        method="post"
-                        onSubmit={(e) => {
-                          if (!confirm("Are you sure?")) {
-                            e.preventDefault();
-                          }
-                        }}
-                      >
-                        <input type="hidden" name="intent" value="delete" />
-                        <input type="hidden" name="id" value={user.id} />
-                        <Button type="submit" variant="destructive" size="sm">
-                          Delete
-                        </Button>
-                      </Form>
-                    </div>
+                    <ActionsDropdown
+                      actions={[
+                        {
+                          label:
+                            user.role === "admin"
+                              ? "Remove Admin"
+                              : "Make Admin",
+                          onClick: () =>
+                            handleRoleChange(
+                              user.id,
+                              user.role === "admin" ? "user" : "admin",
+                            ),
+                        },
+                        {
+                          label: "Delete",
+                          variant: "destructive",
+                          onClick: () => handleDelete(user.id),
+                          key: `delete-${user.id}`,
+                        },
+                      ]}
+                    />
                   </TableCell>
                 </TableRow>
               ))
