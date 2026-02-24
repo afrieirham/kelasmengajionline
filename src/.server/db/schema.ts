@@ -19,13 +19,15 @@ export const profileTypeEnum = pgEnum("profile_type", [
   "organization",
 ]);
 export const tagGroupEnum = pgEnum("tag_group", [
-  "audience",
-  "format",
-  "fee",
-  "quality",
-  "policy",
+  "teacher_gender",
+  "target_audience",
+  "class_format",
+  "class_fee",
+  "educational_value",
+  "class_policy",
   "perks",
 ]);
+
 export const claimStatusEnum = pgEnum("claim_status", [
   "pending",
   "approved",
@@ -33,8 +35,8 @@ export const claimStatusEnum = pgEnum("claim_status", [
 ]);
 
 // --- BETTER AUTH TABLES ---
-export const users = pgTable("user", {
-  id: text("id").primaryKey(),
+export const users = pgTable("users", {
+  id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").notNull(),
@@ -44,24 +46,24 @@ export const users = pgTable("user", {
   role: roleEnum("role").notNull().default("user"),
 });
 
-export const sessions = pgTable("session", {
-  id: text("id").primaryKey(),
+export const sessions = pgTable("sessions", {
+  id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
   expiresAt: timestamp("expires_at").notNull(),
   token: text("token").notNull().unique(),
   createdAt: timestamp("created_at").notNull().defaultNow(),
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
   ipAddress: text("ip_address"),
   userAgent: text("user_agent"),
-  userId: text("user_id")
+  userId: integer("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
 });
 
-export const accounts = pgTable("account", {
-  id: text("id").primaryKey(),
-  accountId: text("account_id").notNull(),
-  providerId: text("provider_id").notNull(),
-  userId: text("user_id")
+export const accounts = pgTable("accounts", {
+  id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
+  accountId: integer("account_id").notNull(),
+  providerId: integer("provider_id").notNull(),
+  userId: integer("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
   accessToken: text("access_token"),
@@ -75,8 +77,8 @@ export const accounts = pgTable("account", {
   updatedAt: timestamp("updated_at").notNull().defaultNow(),
 });
 
-export const verifications = pgTable("verification", {
-  id: text("id").primaryKey(),
+export const verifications = pgTable("verifications", {
+  id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
   identifier: text("identifier").notNull(),
   value: text("value").notNull(),
   expiresAt: timestamp("expires_at").notNull(),
@@ -89,7 +91,7 @@ export const verifications = pgTable("verification", {
 export const profiles = pgTable(
   "profiles",
   {
-    id: text("id").primaryKey(),
+    id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
     slug: text("slug").notNull().unique(),
     type: profileTypeEnum("type").notNull().default("individual"),
 
@@ -117,7 +119,7 @@ export const profiles = pgTable(
     isBoosted: boolean("is_boosted").notNull().default(false),
 
     // Ownership
-    ownerId: text("owner_id").references(() => users.id, {
+    ownerId: integer("owner_id").references(() => users.id, {
       onDelete: "set null",
     }),
 
@@ -128,7 +130,7 @@ export const profiles = pgTable(
 );
 
 export const tags = pgTable("tags", {
-  id: text("id").primaryKey(),
+  id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
   slug: text("slug").notNull().unique(),
   name: text("name").notNull(),
   group: tagGroupEnum("group").notNull(),
@@ -145,10 +147,10 @@ export const tags = pgTable("tags", {
 export const profilesToTags = pgTable(
   "profiles_to_tags",
   {
-    profileId: text("profile_id")
+    profileId: integer("profile_id")
       .notNull()
       .references(() => profiles.id, { onDelete: "cascade" }),
-    tagId: text("tag_id")
+    tagId: integer("tag_id")
       .notNull()
       .references(() => tags.id, { onDelete: "cascade" }),
   },
@@ -158,11 +160,11 @@ export const profilesToTags = pgTable(
 export const claimRequests = pgTable(
   "claim_requests",
   {
-    id: text("id").primaryKey(),
-    profileId: text("profile_id")
+    id: integer("id").primaryKey().generatedByDefaultAsIdentity(),
+    profileId: integer("profile_id")
       .notNull()
       .references(() => profiles.id, { onDelete: "cascade" }),
-    userId: text("user_id")
+    userId: integer("user_id")
       .notNull()
       .references(() => users.id, { onDelete: "cascade" }),
 

@@ -1,282 +1,213 @@
+/** biome-ignore-all lint/suspicious/noConsole: <> */
 import "dotenv/config";
 import { db } from "./index";
-import { profiles, profilesToTags, tags } from "./schema";
+import { tags } from "./schema";
 
 const tagsData = [
-  // audience
+  // --- Teacher Gender ---
   {
-    id: "tag_1",
-    slug: "kanak-kanak",
+    name: "Ustaz (Lelaki)",
+    slug: "ustaz",
+    group: "teacher_gender" as const,
+    order: 1,
+    metaTitle: "Senarai Ustaz (Guru Lelaki) | Kelas Mengaji Online",
+    pageTitle: "Guru Mengaji Lelaki (Ustaz)",
+  },
+  {
+    name: "Ustazah (Perempuan)",
+    slug: "ustazah",
+    group: "teacher_gender" as const,
+    order: 2,
+    metaTitle: "Senarai Ustazah (Guru Perempuan) | Kelas Mengaji Online",
+    pageTitle: "Guru Mengaji Perempuan (Ustazah)",
+  },
+
+  // --- Target Audience (The Matrix) ---
+  {
     name: "Kanak-kanak",
-    group: "audience" as const,
+    slug: "kanak-kanak",
+    group: "target_audience" as const,
     order: 1,
+    metaTitle: "Kelas Mengaji Online Kanak-kanak | Belajar Iqra & Al-Quran",
+    pageTitle: "Kelas Mengaji untuk Kanak-kanak",
   },
   {
-    id: "tag_2",
-    slug: "dewasa",
-    name: "Dewasa",
-    group: "audience" as const,
+    name: "Remaja Lelaki",
+    slug: "remaja-lelaki",
+    group: "target_audience" as const,
     order: 2,
+    metaTitle: "Kelas Mengaji Remaja Lelaki Online",
+    pageTitle: "Kelas Mengaji untuk Remaja Lelaki",
   },
   {
-    id: "tag_3",
-    slug: "orang-tua",
-    name: "Orang Tua",
-    group: "audience" as const,
+    name: "Remaja Perempuan",
+    slug: "remaja-perempuan",
+    group: "target_audience" as const,
     order: 3,
+    metaTitle: "Kelas Mengaji Remaja Perempuan Online",
+    pageTitle: "Kelas Mengaji untuk Remaja Perempuan",
+  },
+  {
+    name: "Lelaki Dewasa",
+    slug: "lelaki-dewasa",
+    group: "target_audience" as const,
+    order: 4,
+    metaTitle: "Kelas Mengaji Lelaki Dewasa | Tajwid & Talaqqi",
+    pageTitle: "Kelas Mengaji untuk Lelaki Dewasa",
+  },
+  {
+    name: "Perempuan Dewasa",
+    slug: "perempuan-dewasa",
+    group: "target_audience" as const,
+    order: 5,
+    metaTitle: "Kelas Mengaji Perempuan Dewasa (Muslimah) Online",
+    pageTitle: "Kelas Mengaji untuk Muslimah/Wanita",
+  },
+  {
+    name: "Warga Emas",
+    slug: "warga-emas",
+    group: "target_audience" as const,
+    order: 6,
+    metaTitle: "Kelas Mengaji Warga Emas Online",
+    pageTitle: "Kelas Mengaji untuk Warga Emas",
   },
 
-  // format
+  // --- Class Format ---
   {
-    id: "tag_4",
+    name: "Kelas Online",
     slug: "online",
-    name: "Online",
-    group: "format" as const,
+    group: "class_format" as const,
     order: 1,
+    metaTitle: "Senarai Kelas Mengaji Online (Zoom/Google Meet)",
+    pageTitle: "Kelas Mengaji Secara Online",
   },
   {
-    id: "tag_5",
-    slug: "fizikal",
-    name: "Fizikal",
-    group: "format" as const,
-    order: 2,
-  },
-  {
-    id: "tag_6",
+    name: "Hybrid (Online + Fizikal)",
     slug: "hybrid",
-    name: "Hybrid",
-    group: "format" as const,
+    group: "class_format" as const,
+    order: 2,
+    metaTitle: "Kelas Mengaji Hybrid (Online + Fizikal)",
+    pageTitle: "Kelas Mengaji Secara Hybrid",
+  },
+  {
+    name: "Fizikal (Rumah Pelajar)",
+    slug: "fizikal-rumah",
+    group: "class_format" as const,
     order: 3,
+    metaTitle: "Guru Mengaji ke Rumah (Home Tutoring)",
+    pageTitle: "Kelas Mengaji Fizikal ke Rumah",
+  },
+  {
+    name: "Fizikal (Pusat Mengaji)",
+    slug: "fizikal-pusat",
+    group: "class_format" as const,
+    order: 4,
+    metaTitle: "Kelas Mengaji di Pusat / Madrasah",
+    pageTitle: "Kelas Mengaji di Pusat Pembelajaran",
   },
 
-  // fee
+  // --- Class Fee ---
   {
-    id: "tag_7",
+    name: "Kelas Percuma",
     slug: "percuma",
-    name: "Percuma",
-    group: "fee" as const,
+    group: "class_fee" as const,
     order: 1,
+    metaTitle: "Kelas Mengaji Percuma Online",
+    pageTitle: "Senarai Kelas Mengaji Percuma",
   },
   {
-    id: "tag_8",
-    slug: "berbayar",
-    name: "Berbayar",
-    group: "fee" as const,
+    name: "Seikhlas Hati",
+    slug: "seikhlas-hati",
+    group: "class_fee" as const,
     order: 2,
+    metaTitle: "Kelas Mengaji Bayaran Seikhlas Hati",
+    pageTitle: "Kelas Mengaji (Sumbangan Seikhlas Hati)",
+  },
+  {
+    name: "Yuran Tetap Bulanan",
+    slug: "yuran-tetap",
+    group: "class_fee" as const,
+    order: 3,
+    metaTitle: "Kelas Mengaji Yuran Tetap Bulanan",
+    pageTitle: "Kelas Mengaji Berbayar (Yuran Tetap)",
+  },
+  {
+    name: "Tiada Yuran Pendaftaran",
+    slug: "tiada-yuran-pendaftaran",
+    group: "class_fee" as const,
+    order: 4,
+    metaTitle: "Kelas Mengaji Tanpa Yuran Pendaftaran",
+    pageTitle: "Kelas Mengaji (Tanpa Yuran Pendaftaran)",
   },
 
-  // quality
+  // --- Educational Value ---
   {
-    id: "tag_9",
-    slug: "verified",
-    name: "Verified",
-    group: "quality" as const,
+    name: "Sijil Disediakan",
+    slug: "sijil-disediakan",
+    group: "educational_value" as const,
     order: 1,
+    metaTitle: "Kelas Mengaji dengan Sijil Tamat Pengajian",
+    pageTitle: "Kelas Mengaji (Sijil Disediakan)",
   },
   {
-    id: "tag_10",
-    slug: "boosted",
-    name: "Boosted",
-    group: "quality" as const,
+    name: "Laporan Prestasi",
+    slug: "laporan-prestasi",
+    group: "educational_value" as const,
     order: 2,
+    metaTitle: "Kelas Mengaji dengan Laporan Prestasi Pelajar",
+    pageTitle: "Kelas Mengaji dengan Laporan Prestasi",
+  },
+  {
+    name: "Modul Hafazan",
+    slug: "hafazan",
+    group: "educational_value" as const,
+    order: 3,
+    metaTitle: "Kelas Hafazan Al-Quran Online",
+    pageTitle: "Program Hafazan & Tahfiz Online",
   },
 
-  // policy
+  // --- Class Policy ---
   {
-    id: "tag_11",
-    slug: "sijil-virik",
-    name: "Sijil Viral",
-    group: "policy" as const,
+    name: "Jadual Fleksibel",
+    slug: "jadual-fleksibel",
+    group: "class_policy" as const,
     order: 1,
+    metaTitle: "Kelas Mengaji Jadual Masa Fleksibel",
+    pageTitle: "Kelas dengan Jadual Masa Fleksibel",
   },
   {
-    id: "tag_12",
-    slug: "buku-texto",
-    name: "Buku Texto",
-    group: "policy" as const,
+    name: "Kelas Boleh Ganti ",
+    slug: "kelas-boleh-ganti",
+    group: "class_policy" as const,
     order: 2,
+    metaTitle: "Kelas Mengaji: Polisi Ganti Kelas (Replacement)",
+    pageTitle: "Kelas Mengaji (Boleh Ganti Kelas)",
   },
 
-  // perks
+  // --- Perks ---
   {
-    id: "tag_13",
-    slug: "bebas-cukai",
-    name: "Bebas Cukai",
+    name: "Kelas Percubaan Percuma",
+    slug: "kelas-percubaan-percuma",
     group: "perks" as const,
     order: 1,
+    metaTitle: "Kelas Mengaji Online Free Trial (Percubaan Percuma)",
+    pageTitle: "Kelas Mengaji dengan Percubaan Percuma",
   },
   {
-    id: "tag_14",
-    slug: "sijil-pengiktirafan",
-    name: "Sijil Pengiktirafan",
+    name: "Boleh Pilih Guru",
+    slug: "boleh-pilih-guru",
     group: "perks" as const,
     order: 2,
+    metaTitle: "Kelas Mengaji: Pilih Ustaz atau Ustazah Sendiri",
+    pageTitle: "Kelas Mengaji (Boleh Pilih Guru)",
   },
-];
-
-const profilesData = [
-  {
-    id: "profile_1",
-    slug: "ustadz-ahmad-quran",
-    type: "individual" as const,
-    name: "Ustadz Ahmad",
-    headline: "Guru Quran & Tajwid Profesional",
-    bio: "Saya berpengalaman lebih 10 tahun mengajar Quran dan Tajwid. Fokus kepada pengajian tartil dan qiraat. Sesuai untuk semua peringkat umur.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1618383406944-0df8186c3aff?w=400&h=400&fit=crop",
-    whatsappNumber: "+60123456789",
-    websiteUrl: null,
-    socialLinks: {
-      facebook: "fb.com/ustadzahmad",
-      instagram: "instagram.com/ustadzahmad",
-    },
-    isClaimed: false,
-    isVerified: true,
-    isBoosted: false,
-    ownerId: null,
-  },
-  {
-    id: "profile_2",
-    slug: "cikgu-sarah-tajwid",
-    type: "individual" as const,
-    name: "Cikgu Sarah",
-    headline: "Pakar Tajwid & Tilawah",
-    bio: "Graduan Sains Islam dari Universiti Malaya. Mengajar tajwid dengan kaedah yang mudah dan sistematik. Kelas online available.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1580220810949-e7ddee6a4954?w=400&h=400&fit=crop",
-    whatsappNumber: "+60119876543",
-    websiteUrl: "https://cikgusarah.my",
-    socialLinks: {
-      instagram: "instagram.com/cikgusarah",
-      youtube: "youtube.com/@cikgusarah",
-    },
-    isClaimed: true,
-    isVerified: true,
-    isBoosted: true,
-    ownerId: null,
-  },
-  {
-    id: "profile_3",
-    slug: "madrasah-al-munawwarah",
-    type: "organization" as const,
-    name: "Madrasah Al-Munawwarah",
-    headline: "Sekolah Mengaji & Islamiyah",
-    bio: "Madrasah yang menawarkan pengajian Quran, Tajwid, Fiqh, dan Akidah untuk kanak-kanak dan dewasa. Berlocasi di Shah Alam.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=400&h=400&fit=crop",
-    whatsappNumber: "+60355231234",
-    websiteUrl: "https://almunawwarah.edu.my",
-    socialLinks: {
-      facebook: "fb.com/almunawwarah",
-      instagram: "instagram.com/almunawwarah",
-    },
-    isClaimed: true,
-    isVerified: true,
-    isBoosted: false,
-    ownerId: null,
-  },
-  {
-    id: "profile_4",
-    slug: "kelas-mengaji-online",
-    type: "individual" as const,
-    name: "Kelas Mengaji Malaysia",
-    headline: "Platform Pembelajaran Quran Online",
-    bio: "Platform online yang menyediakan kelas mengaji untuk semua peringkat. Mula ditubuhkan pada 2020. Mempunyai lebih 5000 students.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?w=400&h=400&fit=crop",
-    whatsappNumber: "+601112345678",
-    websiteUrl: "https://kelasmengaji.online",
-    socialLinks: {
-      instagram: "instagram.com/kelasmengaji",
-      tiktok: "tiktok.com/@kelasmengaji",
-      youtube: "youtube.com/@kelasmengaji",
-    },
-    isClaimed: true,
-    isVerified: true,
-    isBoosted: true,
-    ownerId: null,
-  },
-  {
-    id: "profile_5",
-    slug: "yayasan-quran-malaysia",
-    type: "organization" as const,
-    name: "Yayasan Quran Malaysia",
-    headline: "Badan Amal Pengajian Quran",
-    bio: "Yayasan tidak berasaskan keuntungan yang ditubuhkan untuk promotes pengajian Quran di Malaysia. Menyediakan kelas percuma untuk Asnaf.",
-    imageUrl:
-      "https://images.unsplash.com/photo-1590523277543-a94d2e4eb00b?w=400&h=400&fit=crop",
-    whatsappNumber: "+60326981234",
-    websiteUrl: "https://yqm.org.my",
-    socialLinks: {
-      facebook: "fb.com/yqm",
-      instagram: "instagram.com/yayasanquranmalaysia",
-    },
-    isClaimed: true,
-    isVerified: true,
-    isBoosted: false,
-    ownerId: null,
-  },
-];
-
-const profilesToTagsData = [
-  // Ustadz Ahmad - individual, dewasa, online, berbayar, verified
-  { profileId: "profile_1", tagId: "tag_2" }, // dewasa
-  { profileId: "profile_1", tagId: "tag_4" }, // online
-  { profileId: "profile_1", tagId: "tag_8" }, // berbayar
-  { profileId: "profile_1", tagId: "tag_9" }, // verified
-
-  // Cikgu Sarah - individual, dewasa, online, hybrid, berbayar, verified, boosted
-  { profileId: "profile_2", tagId: "tag_2" }, // dewasa
-  { profileId: "profile_2", tagId: "tag_4" }, // online
-  { profileId: "profile_2", tagId: "tag_6" }, // hybrid
-  { profileId: "profile_2", tagId: "tag_8" }, // berbayar
-  { profileId: "profile_2", tagId: "tag_9" }, // verified
-  { profileId: "profile_2", tagId: "tag_10" }, // boosted
-
-  // Madrasah Al-Munawwarah - organization, kanak-kanak, dewasa, fizikal, berbayar, verified
-  { profileId: "profile_3", tagId: "tag_1" }, // kanak-kanak
-  { profileId: "profile_3", tagId: "tag_2" }, // dewasa
-  { profileId: "profile_3", tagId: "tag_5" }, // fizikal
-  { profileId: "profile_3", tagId: "tag_8" }, // berbayar
-  { profileId: "profile_3", tagId: "tag_9" }, // verified
-
-  // Kelas Mengaji Malaysia - individual, kanak-kanak, dewasa, online, hybrid, berbayar, verified, boosted
-  { profileId: "profile_4", tagId: "tag_1" }, // kanak-kanak
-  { profileId: "profile_4", tagId: "tag_2" }, // dewasa
-  { profileId: "profile_4", tagId: "tag_4" }, // online
-  { profileId: "profile_4", tagId: "tag_6" }, // hybrid
-  { profileId: "profile_4", tagId: "tag_8" }, // berbayar
-  { profileId: "profile_4", tagId: "tag_9" }, // verified
-  { profileId: "profile_4", tagId: "tag_10" }, // boosted
-
-  // Yayasan Quran Malaysia - organization, kanak-kanak, dewasa, online, fizikal, percuma, verified
-  { profileId: "profile_5", tagId: "tag_1" }, // kanak-kanak
-  { profileId: "profile_5", tagId: "tag_2" }, // dewasa
-  { profileId: "profile_5", tagId: "tag_4" }, // online
-  { profileId: "profile_5", tagId: "tag_5" }, // fizikal
-  { profileId: "profile_5", tagId: "tag_7" }, // percuma
-  { profileId: "profile_5", tagId: "tag_9" }, // verified
 ];
 
 async function seed() {
-  console.log("🌱 Seeding database...");
+  console.log("🌱 Seeding tags...");
 
-  console.log("Inserting tags...");
   await db.insert(tags).values(tagsData).onConflictDoNothing();
-  console.log(`✓ Inserted ${tagsData.length} tags`);
-
-  console.log("Inserting profiles...");
-  await db.insert(profiles).values(profilesData).onConflictDoNothing();
-  console.log(`✓ Inserted ${profilesData.length} profiles`);
-
-  console.log("Inserting profile-tag relations...");
-  await db
-    .insert(profilesToTags)
-    .values(profilesToTagsData)
-    .onConflictDoNothing();
-  console.log(`✓ Inserted ${profilesToTagsData.length} profile-tag relations`);
-
-  console.log("✅ Seeding complete!");
+  console.log(`✅ Inserted ${tagsData.length} tags`);
 }
 
 seed()
