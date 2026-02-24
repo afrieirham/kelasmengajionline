@@ -93,7 +93,7 @@ export async function action({ request }: { request: Request }) {
 }
 
 const groupLabels: Record<string, string> = {
-  jantina_guru: "Jantina Gutu",
+  jantina_guru: "Jantina Guru",
   kategori_pelajar: "Kategori Pelajar",
   format_kelas: "Format Kelas",
   yuran_kelas: "Yuran Kelas",
