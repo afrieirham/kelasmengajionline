@@ -2,7 +2,6 @@ import { eq } from "drizzle-orm";
 import { useRef, useState } from "react";
 import {
   Form,
-  Link,
   redirect,
   useActionData,
   useLoaderData,
@@ -128,9 +127,6 @@ export default function DashboardNewProfile() {
     <div>
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold">Cipta Profil Baharu</h1>
-        <Link to="/dashboard">
-          <Button variant="outline">Kembali ke Papan Pemuka</Button>
-        </Link>
       </div>
 
       {actionData?.error && (
