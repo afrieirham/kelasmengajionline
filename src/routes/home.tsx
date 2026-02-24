@@ -81,7 +81,7 @@ export default function Home() {
           </a>
         </div>
       </div>
-      <main className="mx-auto mt-8 grid w-full max-w-5xl grid-cols-1 gap-2 md:grid-cols-3">
+      <main className="mx-auto mt-8 grid w-full max-w-5xl grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
         {classes.map((kelas) => (
           <a
             key={kelas.websiteUrl}
