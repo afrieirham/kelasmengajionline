@@ -1,4 +1,4 @@
-import { desc } from "drizzle-orm";
+import { desc, eq } from "drizzle-orm";
 import { ArrowUpRight } from "lucide-react";
 import { useState } from "react";
 import { useLoaderData } from "react-router";
@@ -14,14 +14,18 @@ import type { Route } from "./+types/home";
 export async function loader() {
   const classes = await db
     .select({
+      id: profiles.id,
+      slug: profiles.slug,
       name: profiles.name,
       headline: profiles.headline,
       imageUrl: profiles.imageUrl,
       websiteUrl: profiles.websiteUrl,
+      isBoosted: profiles.isBoosted,
       createdAt: profiles.createdAt,
     })
     .from(profiles)
-    .orderBy(desc(profiles.createdAt));
+    .where(eq(profiles.moderationStatus, "approved"))
+    .orderBy(desc(profiles.isBoosted), desc(profiles.createdAt));
 
   return { classes };
 }

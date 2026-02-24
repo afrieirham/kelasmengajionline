@@ -90,7 +90,7 @@ export async function action({ request }: { request: Request }) {
     websiteUrl,
     ownerId: user.id,
     isClaimed: true,
-    isVerified: false,
+    moderationStatus: "draft",
     isBoosted: false,
   });
 

@@ -103,7 +103,12 @@ export async function action({
     const websiteUrl = formData.get("websiteUrl") as string;
     const ownerId = formData.get("ownerId") as string;
     const isClaimed = formData.get("isClaimed") === "on";
-    const isVerified = formData.get("isVerified") === "on";
+    const moderationStatus = formData.get("moderationStatus") as
+      | "draft"
+      | "pending"
+      | "approved"
+      | "rejected";
+    const adminNotes = formData.get("adminNotes") as string;
     const isBoosted = formData.get("isBoosted") === "on";
     const tagIds = formData.getAll("tagIds") as string[];
 
@@ -124,7 +129,8 @@ export async function action({
         websiteUrl,
         ownerId: ownerId || null,
         isClaimed,
-        isVerified,
+        moderationStatus,
+        adminNotes: adminNotes || null,
         isBoosted,
       });
 
@@ -153,7 +159,8 @@ export async function action({
           websiteUrl,
           ownerId: ownerId || null,
           isClaimed,
-          isVerified,
+          moderationStatus,
+          adminNotes: adminNotes || null,
           isBoosted,
         })
         .where(eq(profiles.id, profileId));
@@ -355,13 +362,33 @@ export default function AdminProfileEdit() {
               />
               <Label htmlFor="isClaimed">Claimed</Label>
             </div>
-            <div className="flex items-center gap-4">
-              <Switch
-                name="isVerified"
-                id="isVerified"
-                defaultChecked={profile?.isVerified || false}
+            <div className="space-y-2">
+              <Label htmlFor="moderationStatus">Moderation Status</Label>
+              <Select
+                name="moderationStatus"
+                id="moderationStatus"
+                defaultValue={profile?.moderationStatus || "draft"}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="Select status" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="draft">Draft</SelectItem>
+                  <SelectItem value="pending">Pending</SelectItem>
+                  <SelectItem value="approved">Approved</SelectItem>
+                  <SelectItem value="rejected">Rejected</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="adminNotes">Admin Notes (Internal)</Label>
+              <Textarea
+                name="adminNotes"
+                id="adminNotes"
+                rows={3}
+                placeholder="Internal notes for moderation..."
+                defaultValue={profile?.adminNotes || ""}
               />
-              <Label htmlFor="isVerified">Verified</Label>
             </div>
             <div className="flex items-center gap-4">
               <Switch

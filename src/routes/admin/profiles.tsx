@@ -29,7 +29,7 @@ export async function loader({ request }: { request: Request }) {
       slug: profiles.slug,
       type: profiles.type,
       isClaimed: profiles.isClaimed,
-      isVerified: profiles.isVerified,
+      moderationStatus: profiles.moderationStatus,
       isBoosted: profiles.isBoosted,
       ownerId: profiles.ownerId,
       createdAt: profiles.createdAt,
@@ -70,19 +70,17 @@ export async function action({ request }: { request: Request }) {
   const formData = await request.formData();
   const intent = formData.get("intent");
 
-  if (intent === "toggleVerified") {
+  if (intent === "setStatus") {
     const id = formData.get("id") as string;
-    const profileList = await db
-      .select({ isVerified: profiles.isVerified })
-      .from(profiles)
-      .where(eq(profiles.id, id))
-      .limit(1);
-    if (profileList.length > 0) {
-      await db
-        .update(profiles)
-        .set({ isVerified: !profileList[0].isVerified })
-        .where(eq(profiles.id, id));
-    }
+    const status = formData.get("status") as
+      | "draft"
+      | "pending"
+      | "approved"
+      | "rejected";
+    await db
+      .update(profiles)
+      .set({ moderationStatus: status })
+      .where(eq(profiles.id, id));
   }
 
   if (intent === "toggleBoosted") {
@@ -194,9 +192,25 @@ export default function AdminProfiles() {
                       {profile.isClaimed && (
                         <Badge variant="secondary">Claimed</Badge>
                       )}
-                      {profile.isVerified && (
-                        <Badge variant="default">Verified</Badge>
-                      )}
+                      <Badge
+                        variant={
+                          profile.moderationStatus === "approved"
+                            ? "default"
+                            : profile.moderationStatus === "pending"
+                              ? "outline"
+                              : profile.moderationStatus === "rejected"
+                                ? "destructive"
+                                : "secondary"
+                        }
+                      >
+                        {profile.moderationStatus === "approved"
+                          ? "Approved"
+                          : profile.moderationStatus === "pending"
+                            ? "Pending"
+                            : profile.moderationStatus === "rejected"
+                              ? "Rejected"
+                              : "Draft"}
+                      </Badge>
                       {profile.isBoosted && (
                         <Badge className="bg-amber-500">Boosted</Badge>
                       )}
@@ -209,26 +223,38 @@ export default function AdminProfiles() {
                           Edit
                         </Button>
                       </Link>
-                      <Form method="post">
-                        <input
-                          type="hidden"
-                          name="intent"
-                          value="toggleVerified"
-                        />
-                        <input type="hidden" name="id" value={profile.id} />
-                        <Button
-                          type="submit"
-                          variant="outline"
-                          size="sm"
-                          className={
-                            profile.isVerified
-                              ? "text-green-600"
-                              : "text-gray-400"
-                          }
-                        >
-                          {profile.isVerified ? "Unverify" : "Verify"}
-                        </Button>
-                      </Form>
+                      {profile.moderationStatus === "approved" ? (
+                        <Form method="post">
+                          <input
+                            type="hidden"
+                            name="intent"
+                            value="setStatus"
+                          />
+                          <input type="hidden" name="id" value={profile.id} />
+                          <input type="hidden" name="status" value="pending" />
+                          <Button type="submit" variant="outline" size="sm">
+                            Unapprove
+                          </Button>
+                        </Form>
+                      ) : (
+                        <Form method="post">
+                          <input
+                            type="hidden"
+                            name="intent"
+                            value="setStatus"
+                          />
+                          <input type="hidden" name="id" value={profile.id} />
+                          <input type="hidden" name="status" value="approved" />
+                          <Button
+                            type="submit"
+                            variant="outline"
+                            size="sm"
+                            className="text-green-600"
+                          >
+                            Approve
+                          </Button>
+                        </Form>
+                      )}
                       <Form method="post">
                         <input
                           type="hidden"

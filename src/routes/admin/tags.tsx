@@ -91,13 +91,12 @@ export async function action({ request }: { request: Request }) {
 }
 
 const groupLabels: Record<string, string> = {
-  teacher_gender: "Teacher Gender",
-  target_audience: "Target Audience",
-  class_format: "Class Format",
-  class_fee: "Class Fee",
-  educational_value: "Educational Value",
-  class_policy: "Class Policy",
-  perks: "Perks",
+  jantina_guru: "Jantina Gutu",
+  kategori_pelajar: "Kategori Pelajar",
+  format_kelas: "Format Kelas",
+  yuran_kelas: "Yuran Kelas",
+  polisi_kelas: "Polisi Kelas",
+  kelebihan_tambahan: "Kelebihan Tambahan",
 };
 
 export default function AdminTags() {

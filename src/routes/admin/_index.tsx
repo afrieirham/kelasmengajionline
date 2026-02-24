@@ -31,7 +31,12 @@ export async function loader({ request }: { request: Request }) {
       totalTags: totalTags.length,
       pendingClaims: pendingClaims.length,
       claimedProfiles: totalProfiles.filter((p) => p.isClaimed).length,
-      verifiedProfiles: totalProfiles.filter((p) => p.isVerified).length,
+      approvedProfiles: totalProfiles.filter(
+        (p) => p.moderationStatus === "approved",
+      ).length,
+      pendingProfiles: totalProfiles.filter(
+        (p) => p.moderationStatus === "pending",
+      ).length,
       boostedProfiles: totalProfiles.filter((p) => p.isBoosted).length,
     },
   };
@@ -44,9 +49,14 @@ export default function AdminDashboard() {
     { title: "Total Profiles", value: stats.totalProfiles, color: "blue" },
     { title: "Claimed Profiles", value: stats.claimedProfiles, color: "green" },
     {
-      title: "Verified Profiles",
-      value: stats.verifiedProfiles,
+      title: "Approved Profiles",
+      value: stats.approvedProfiles,
       color: "emerald",
+    },
+    {
+      title: "Pending (Moderation)",
+      value: stats.pendingProfiles,
+      color: "orange",
     },
     { title: "Boosted Profiles", value: stats.boostedProfiles, color: "amber" },
     { title: "Total Users", value: stats.totalUsers, color: "purple" },
@@ -59,6 +69,7 @@ export default function AdminDashboard() {
     green: "border-l-green-500",
     emerald: "border-l-emerald-500",
     amber: "border-l-amber-500",
+    orange: "border-l-orange-500",
     purple: "border-l-purple-500",
     red: "border-l-red-500",
     indigo: "border-l-indigo-500",
