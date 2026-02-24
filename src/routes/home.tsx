@@ -53,9 +53,9 @@ export default function Home() {
     <div className="flex flex-col px-4">
       <nav className="mx-auto flex w-full max-w-7xl items-center justify-between py-4">
         <Logo />
-        <Button onClick={handleSignIn} size="lg" disabled>
+        <Button onClick={handleSignIn} size="lg">
           {isLoggingIn && <Spinner />}
-          Tambah Kelas (akan datang)
+          Tambah Kelas
         </Button>
       </nav>
       <div className="mt-8 flex flex-col gap-4 text-center">
@@ -96,7 +96,7 @@ export default function Home() {
             />
             <div className="flex flex-col">
               <p className="font-semibold">{kelas.name}</p>
-              <p className="text-sm text-gray-500 line-clamp-2">
+              <p className="line-clamp-2 text-sm text-gray-500">
                 {kelas.headline}
               </p>
             </div>
