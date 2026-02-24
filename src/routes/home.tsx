@@ -96,7 +96,9 @@ export default function Home() {
             />
             <div className="flex flex-col">
               <p className="font-semibold">{kelas.name}</p>
-              <p className="text-sm text-gray-500">{kelas.headline}</p>
+              <p className="text-sm text-gray-500 line-clamp-2">
+                {kelas.headline}
+              </p>
             </div>
           </a>
         ))}
