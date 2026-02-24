@@ -91,7 +91,7 @@ export default function Home() {
             key={kelas.websiteUrl}
             target="_blank"
             href={`${kelas.websiteUrl}?ref=kelasmengaji.online`}
-            className="flex cursor-pointer items-center justify-center space-x-4 rounded-lg border bg-white p-4 hover:bg-gray-50"
+            className="flex cursor-pointer items-center space-x-4 rounded-lg border bg-white p-4 hover:bg-gray-50"
           >
             <div className="flex items-center justify-center">
               {kelas.imageUrl ? (
