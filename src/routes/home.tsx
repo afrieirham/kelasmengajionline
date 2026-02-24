@@ -53,9 +53,9 @@ export default function Home() {
     <div className="flex flex-col px-4">
       <nav className="mx-auto flex w-full max-w-7xl items-center justify-between py-4">
         <Logo />
-        <Button onClick={handleSignIn} size="lg" disabled={isLoggingIn}>
+        <Button onClick={handleSignIn} size="lg" disabled>
           {isLoggingIn && <Spinner />}
-          Tambah Kelas
+          Tambah Kelas (akan datang)
         </Button>
       </nav>
       <div className="mt-8 flex flex-col gap-4 text-center">
@@ -81,7 +81,7 @@ export default function Home() {
           </a>
         </div>
       </div>
-      <main className="mx-auto mt-8 grid w-full max-w-5xl grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
+      <main className="mx-auto mt-8 grid w-full max-w-6xl grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3">
         {classes.map((kelas) => (
           <a
             key={kelas.websiteUrl}
