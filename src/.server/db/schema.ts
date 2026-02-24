@@ -103,6 +103,7 @@ export const profiles = pgTable(
 
     // Contacts
     whatsappNumber: text("whatsapp_number"),
+    whatsappLabel: text("whatsapp_label"),
     websiteUrl: text("website_url"),
     socialLinks: jsonb("social_links")
       .$type<{
